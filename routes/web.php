@@ -14,6 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-Route::get('/Home/list', "HomeController@get_home_list");
