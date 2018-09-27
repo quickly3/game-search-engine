@@ -7,6 +7,8 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
   <app-root></app-root>
@@ -15,5 +17,6 @@
   <script type="text/javascript" src="/dist/styles.js"></script>
   <script type="text/javascript" src="/dist/vendor.js"></script>
   <script type="text/javascript" src="/dist/main.js"></script>
+
   </body>
 </html>

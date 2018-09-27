@@ -1,10 +1,19 @@
-<div>
-  <div *ngFor="let game of game_list">
-    <img src="{{game.image_url}}" alt="">
-    <span><a href="{{game.download_page}}" target="__blank">{{game.name}}</a><span>{{game.description}}</span></span>
-    
-    
-
+<div class="main_content">
+  <div class="game_list">
+    <a href="http://" class="game_item" *ngFor="let game of game_list">
+      <div class="img_zone">
+        <img class="img" src="{{game.image_url}}" alt="">
+      </div>
+      <div class="des_zone">
+        <div>
+          <a href="http://" class="title">{{game.name}}</a>
+        </div>
+        <mat-chip-list>
+          <mat-chip  *ngFor="let tag of game.game_tags">{{tag}}</mat-chip>
+        </mat-chip-list>
+        <div class="description">{{game.description}}</div>
+      </div>
+    </a>
   </div>
 </div>
 
