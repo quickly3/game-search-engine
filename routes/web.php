@@ -12,7 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	$index = File::get(public_path() . '/dist/index.html');
+
+	$index = str_replace('href="','href="/dist/',$index);
+	$index = str_replace('src="','src="/dist/',$index);
+
+    return $index;
 });
 
 Route::get('game/list', 'GameController@getList');

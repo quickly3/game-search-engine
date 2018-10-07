@@ -28,10 +28,10 @@ export class AppComponent {
 
   }
 
-  configUrl = 'game/list';
+  configUrl = '/game/list';
 
   getConfig() {
-    return this.http.get('game/list');
+    return this.http.get('/game/list');
   }
   
   title = 'my-app';
