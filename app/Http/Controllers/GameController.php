@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use DB;
 use Illuminate\Http\Request;
+use Elasticsearch\ClientBuilder;
 
 class GameController extends Controller
 {
@@ -17,5 +18,13 @@ class GameController extends Controller
         $data = DB::table("Game")->paginate(20);
 
         return response()->json($data);
+    }
+
+    public function test(Request $request){
+
+    	
+
+    	$data = [];
+    	return response()->json($data); 
     }
 }
