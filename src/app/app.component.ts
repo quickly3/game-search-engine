@@ -11,29 +11,39 @@ import { HttpClient } from '@angular/common/http';
 
 export class AppComponent {
   game_list
+
+  total_number = 70;
+  current_page = 1
+  row = 20;
+
   constructor(private http: HttpClient) { 
-    var req = this.getConfig();
-  
-    req.subscribe((data) =>  {
-
-
-      this.game_list = data['data'];
-
-      this.game_list = this.game_list.map((item)=>{
-        item.game_tags = item.game_tags_string.split(",")
-        return item;
-      })
-      console.log(this.game_list);
-    });
-
+    this.getGameDatas();
   }
 
   configUrl = '/game/list';
 
-  getConfig() {
-    return this.http.get('/game/list');
+  getGameDatas() {
+
+    this.http.get('/game/list', { params: { page: "" + this.current_page } }).subscribe((data) => {
+      this.game_list = data['data'];
+
+      this.game_list = this.game_list.map((item) => {
+        item.game_tags = item.game_tags_string.split(",")
+        return item;
+      })
+      this.total_number = data['total'];
+      console.log(this.total_number);
+      console.log(this.current_page);
+
+
+    });;
   }
   
+  pageChange(){
+    this.getGameDatas();
+    console.log(this.current_page);
+  }
+
   title = 'my-app';
 
   
