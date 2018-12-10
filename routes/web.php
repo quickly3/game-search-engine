@@ -21,3 +21,4 @@ Route::get('/', function () {
 });
 
 Route::get('game/list', 'GameController@getList');
+Route::get('game/test', 'GameController@test');
