@@ -150,7 +150,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Laravel\Scout\ScoutServiceProvider::class,
+        ScoutElastic\ScoutElasticServiceProvider::class,
         /*
          * Application Service Providers...
          */

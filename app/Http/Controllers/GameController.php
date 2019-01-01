@@ -18,12 +18,13 @@ class GameController extends Controller
 
         $db = $request->input("db","mysql");
 
-        // $data = DB::table("Game")->paginate(20);
-        $es = new ElasticModel("games","game");
+        $es = new ElasticModel("games","games");
         $query = [  "match_all" => (object)[]];
+        $query_string = "name:英雄";
 
-        $data = DB::table("Game")->paginate(20);
-        $data = $es->match_all()->getIdResPaged();
+        $data = $es->source(["name","version"])->query_string($query_string,"*")->paginate(10);
+
+        // $data = DB::table("Game")->paginate(20);
 
         return response()->json($data);
     }
@@ -31,10 +32,9 @@ class GameController extends Controller
     public function test(Request $request){
         $es = new ElasticModel("games","game");
         $query = [  "match_all" => (object)[]];
-        
+        $query_string = "name:英雄";
+        $data = $es->source(["name","version"])->query_string($query_string,"*")->paginate(10);
 
-
-        $data = $es->source(["name","version"])->query($query)->getIdRes();
     	return response()->json($data); 
     }
 }

@@ -6,7 +6,7 @@
     "my-app": {
       "root": "",
       "sourceRoot": "src",
-      "projectType": "application",
+      "projectType": "library",
       "prefix": "app",
       "schematics": {},
       "targets": {

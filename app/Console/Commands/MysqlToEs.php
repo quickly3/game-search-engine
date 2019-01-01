@@ -52,7 +52,7 @@ class MysqlToEs extends Command
         $start = 0;
         $row = 100;
 
-        $es = new ElasticModel;
+        $es = new ElasticModel("games","game");
         $params = [
             "index" => "bank",
             "type" => "account",
@@ -100,7 +100,7 @@ class MysqlToEs extends Command
 
                 $params = [
                     "index" => "games",
-                    "type" => "game",
+                    "type" => "games",
                     "body" =>  $data 
                 ];
                 $data = $es->client->index($params);
