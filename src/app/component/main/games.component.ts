@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 
 
 @Component({
     selector: 'games',
-    templateUrl: '/assets/html/games.component.html',
-    styleUrls: ['/assets/scss/app.component.scss','/assets/scss/games.component.scss']
+    templateUrl: '../../../assets/html/games.component.html',
+    styleUrls: ['../../../assets/scss/games.component.scss']
 })
 
 
