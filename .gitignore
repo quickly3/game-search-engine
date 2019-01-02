@@ -16,3 +16,11 @@ storage/*
 .phpintel/*
 package-lock.json
 composer.lock
+
+public/*.map
+public/*.js
+public/assets/html
+public/assets/scss
+public/assets/config.json
+public/index.html
+public/3rdpartylicenses.txt
