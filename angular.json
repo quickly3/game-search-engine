@@ -98,6 +98,7 @@
     },
     "my-app-e2e": {
       "root": "e2e/",
+      "sourceRoot": "src",
       "projectType": "application",
       "targets": {
         "e2e": {

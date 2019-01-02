@@ -1,0 +1,33 @@
+    .game_list{
+        padding: 10px;
+        .game_item{
+            width: 50%;
+            float: left;
+            text-decoration: none;
+            color:#d8dbe6;
+            margin-bottom: 10px;
+            .img_zone{
+                width: 120px;
+                float: left;                
+                .img{
+                    width: 100%;                      
+                }
+            }
+            .des_zone{
+                float: left;
+                width: 80%;
+                padding:0 10px;    
+                .title{
+                    color:#eef0f5;
+                    font-size: 20px;
+                    font-weight: 700;
+                    text-decoration: none;
+                }       
+                .description{
+                    font-size: 14px;
+                    color:#d8dbe6;
+                }
+            }
+        }
+    }
+
