@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "public/dist/",
+            "outputPath": "public/",
             "deleteOutputPath": false,
             "index": "src/index.html",
             "main": "src/main.ts",

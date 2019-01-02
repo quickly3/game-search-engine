@@ -28,7 +28,7 @@ export class GamesComponent {
             this.game_list = data['data'];
 
             this.game_list = this.game_list.map((item) => {
-                item.game_tags = item.game_tags_string.split(",")
+                item.game_tags = item.game_tags_string;
                 return item;
             })
             this.total_number = data['total'];
