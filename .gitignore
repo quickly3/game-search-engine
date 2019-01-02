@@ -19,6 +19,8 @@ composer.lock
 
 public/*.map
 public/*.js
+public/*.css
+
 public/assets/html
 public/assets/scss
 public/assets/config.json
