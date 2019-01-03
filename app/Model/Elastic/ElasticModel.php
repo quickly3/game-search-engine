@@ -69,7 +69,10 @@ class ElasticModel
                 ]
             ]
         ];
+
         $this->request_body = $params;
+        $this->setSource();
+
         return $this;
     }
 
@@ -77,8 +80,6 @@ class ElasticModel
         $this->request_body["body"]["size"] = $size;
         return $this;
     }
-
-
 
     public function from($from){
         $this->request_body["body"]["from"] = $from;
@@ -119,20 +120,15 @@ class ElasticModel
         $res['per_page'] = $size;
 
 
-        // $res['first_page_url'] = $page;
-        // $res['last_page_url'] = $page;
-        // $res['next_page_url'] = $page;
-        // $res['prev_page_url'] = $page;
-        // $res['path'] = $page;
-
         $res['data'] = $this->getIdRes();
         return $res;
     }
 
     private function setSource(){
         if(!empty($this->source)){
-            $params['body']['_source'] = $this->source;
+            $this->request_body["body"]["_source"] = $this->source;
         }
+        return $this;
     }
 
     private function setReqRes(){

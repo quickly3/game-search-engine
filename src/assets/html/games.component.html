@@ -1,5 +1,12 @@
 <div class="row">
-    <input type="text" class="form-control">
+    <div class="col-md-1-12">
+    <input id="typeahead-basic" type="text" class="form-control" 
+        [(ngModel)]="game_keywords" 
+        [ngbTypeahead]="search_by_keywords" 
+        (keydown)="searchKeyDown($event)"
+        />
+    <i class="fas fa-search"></i>
+    </div>
 </div>
 <div class="row game_list">
     <a href="http://" class="col-6 game_item" *ngFor="let game of game_list">

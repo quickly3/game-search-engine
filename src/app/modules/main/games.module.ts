@@ -4,6 +4,7 @@ import { GamesComponent } from 'app/component/main/games.component';
 import { GamesRoutingModule } from 'app/config/games-routing.module';
 import { CommonModule } from '@angular/common';
 import { BootstrapModule } from 'app/modules/bootstrap.module';
+import { FormsModule } from '@angular/forms';
 
 
 // import { DashboardModule } from './dashboard/dashboard.module';
@@ -17,6 +18,7 @@ const PAGES_COMPONENTS = [
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         GamesRoutingModule,
         BootstrapModule
     ],
