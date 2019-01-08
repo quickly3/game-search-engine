@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BootstrapModule } from 'app/bootstrap/bootstrap.module';
+import { BootstrapModule } from 'app/plugins/bootstrap.module';
+
 import { FormsModule } from '@angular/forms';
 
 import { GameDetailRoutingModule } from './game-detail-routing.module';

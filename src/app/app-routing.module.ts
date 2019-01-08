@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
     { path: 'games', loadChildren: './games/games.module#GamesModule'},
+    { path: 'game-detail', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
     { path: 'game-detail/:id', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
     { path: '', redirectTo: 'games', pathMatch: 'full' },
     { path: '**', redirectTo: 'games' }

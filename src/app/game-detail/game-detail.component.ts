@@ -16,9 +16,11 @@ import { HttpClient } from '@angular/common/http';
 
 export class GameDetailComponent {
 
-    ngOnInit(params: ParamMap) {
-        console.log(params)
-        console.log(123);
+    constructor(private routeInfo: ActivatedRoute,private http: HttpClient){
+    }
+
+
+    ngOnInit() {
     }
 
 }

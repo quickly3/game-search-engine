@@ -5,7 +5,7 @@
             [ngbTypeahead]="search_by_keywords" 
             (keydown)="searchKeyDown($event)"
             />
-        <button type="button" class="btn btn-primary">
+        <button type="button" class="btn btn-primary" (click)="search()">
             搜索
             <i class="fas fa-search"></i>
         </button>
@@ -21,7 +21,7 @@
                 <a routerLink="/game-detail/{{game._id}}" routerLinkActive="active" class="title">{{game.name}}</a>
             </div>
             <div>
-                <span class="badge badge-primary" *ngFor="let tag of game.game_tags">{{tag}}</span>
+                <span class="badge badge-primary" *ngFor="let tag of game.game_tags_string">{{tag}}</span>
             </div>
             <div class="description">{{game.description}}</div>
         </div>

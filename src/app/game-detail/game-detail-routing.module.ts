@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { GameDetailComponent } from './game-detail.component';
 
 const routes: Routes = [
-    { path: '/:id', component: GameDetailComponent, },
-
+    { path: ':id', component: GameDetailComponent, },
+    { path: '', component: GameDetailComponent, },
 ];
 
 @NgModule({
