@@ -1,0 +1,48 @@
+.search-header{
+    .search-input{
+        width: 300px;
+        margin:0 auto;
+        input{
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 15px;
+        }
+    }
+}
+
+
+
+.game_list{
+    padding: 10px;
+    .game_item{
+        width: 50%;
+        float: left;
+        text-decoration: none;
+        color:#0074e7;
+        margin-bottom: 10px;
+        .img_zone{
+            width: 120px;
+            float: left;                
+            .img{
+                width: 100%;                      
+            }
+        }
+        .des_zone{
+            float: left;
+            width: 80%;
+            padding:0 10px;    
+            .title{
+                color:#0074e7;
+                font-size: 20px;
+                font-weight: 700;
+                text-decoration: none;
+            }       
+            .description{
+                font-size: 14px;
+                color:#0074e7;
+            }
+        }
+    }
+}
+

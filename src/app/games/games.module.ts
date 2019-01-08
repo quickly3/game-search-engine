@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-
-import { GamesComponent } from 'app/component/main/games.component';
-import { GamesRoutingModule } from 'app/config/games-routing.module';
 import { CommonModule } from '@angular/common';
-import { BootstrapModule } from 'app/modules/bootstrap.module';
+
+import { BootstrapModule } from 'app/bootstrap/bootstrap.module';
 import { FormsModule } from '@angular/forms';
+
+import { GamesComponent } from './games.component';
+import { GamesRoutingModule } from './games-routing.module';
 
 
 // import { DashboardModule } from './dashboard/dashboard.module';

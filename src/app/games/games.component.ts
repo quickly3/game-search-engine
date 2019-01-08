@@ -16,8 +16,8 @@ const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'C
 
 @Component({
     selector: 'games',
-    templateUrl: '../../../assets/html/games.component.html',
-    styleUrls: ['../../../assets/scss/games.component.scss']
+    templateUrl: './games.component.html',
+    styleUrls: ['./games.component.scss']
 })
 
 
@@ -79,7 +79,6 @@ export class GamesComponent {
     search_by_keywords  = (text$: Observable<string>) =>
         text$.pipe(
             debounceTime(300),
-            distinctUntilChanged(),
             tap(),
             switchMap(term =>
                 this.getGameDatasSimple(term).pipe(
@@ -88,6 +87,5 @@ export class GamesComponent {
                         return of([]);
                     }))
             ),
-            tap()
         )
 }

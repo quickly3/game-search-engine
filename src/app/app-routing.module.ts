@@ -1,16 +1,9 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-// import {
-//     NbAuthComponent,
-//     NbLoginComponent,
-//     NbLogoutComponent,
-//     NbRegisterComponent,
-//     NbRequestPasswordComponent,
-//     NbResetPasswordComponent,
-// } from '@nebular/auth';
 
 const routes: Routes = [
-    { path: 'games', loadChildren: '../modules/main/games.module#GamesModule'},
+    { path: 'games', loadChildren: './games/games.module#GamesModule'},
+    { path: 'game-detail/:id', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
     { path: '', redirectTo: 'games', pathMatch: 'full' },
     { path: '**', redirectTo: 'games' }
 ];
