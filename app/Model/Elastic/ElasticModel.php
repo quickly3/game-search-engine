@@ -76,6 +76,19 @@ class ElasticModel
         return $this;
     }
 
+    public function getById($id,$fields){
+        $params = [
+            "index" => $this->index,
+            "type" => $this->index_type,
+            "id"=>$id
+        ];
+
+        $this->request_body = $params;
+        $this->setSource($fields);
+
+        return $this;
+    }
+
     public function size($size){
         $this->request_body["body"]["size"] = $size;
         return $this;
@@ -166,4 +179,6 @@ class ElasticModel
         }
         return $res;
     }
+
+    // public function get
 }
