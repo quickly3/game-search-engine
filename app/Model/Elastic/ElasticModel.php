@@ -83,10 +83,16 @@ class ElasticModel
             "id"=>$id
         ];
 
-        $this->request_body = $params;
-        $this->setSource($fields);
+        $this->get($params);
 
-        return $this;
+        $res = $this->reqRes;
+        $source = false;
+
+        if($res['found'] == true){
+            $source = $res['_source'];
+            $source['_id'] = $res['_id'];
+        }
+        return $source;
     }
 
     public function size($size){
@@ -146,6 +152,10 @@ class ElasticModel
 
     private function setReqRes(){
         $this->reqRes = $this->client->search($this->request_body);
+    }
+
+    private function get($params){
+        $this->reqRes = $this->client->get($params);
     }
 
     public function match_all(){

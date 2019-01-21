@@ -13,19 +13,20 @@ import { Observable } from "rxjs"
 
 export class GameDetailComponent {
     gameService:any;
-    game_id:string
+    game_id:string;
+    game = {};
 
     constructor(
         private route: ActivatedRoute,
         gameService: GameService
     ){
         this.gameService = gameService;
-        this.game_id = this.route.snapshot.paramMap.get("id")
+        this.game_id = this.route.snapshot.paramMap.get("id");
     }
 
     ngOnInit() {
-        this.gameService({ id: this.game_id }).getGameDataById.subscribe((data) => {
-            console.log(data);
+        this.gameService.getGameDataById({ id: this.game_id }).subscribe((data) => {
+            this.game = data;
         });
     }
 

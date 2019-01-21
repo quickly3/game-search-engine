@@ -48,10 +48,10 @@ class GameController extends Controller
     public function getGameDataById(Request $request){
         $id = $request->input("id","");
 
-        $es = new ElasticModel("games","game");
+        $es = new ElasticModel("games","games");
         $query = [  "match_all" => (object)[]];
         $query_string = "name:英雄";
-        $data = $es->source(["name","version"])->query_string($query_string,"*")->paginate(10);
+        $data = $es->source(["name","version"])->getById($id,"*");
 
     	return response()->json($data); 
     }
