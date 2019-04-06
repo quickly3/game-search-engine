@@ -1,18 +1,96 @@
-<span>{{game.name}}</span>
-<span>{{game.version}}</span>
-<span>{{game.gametype}}</span>
-<img src="{{game.image_url}}" alt="{{game.image_alt}}" sizes="" srcset="">
-<span>{{game.inLanguage}}</span>
-<span>{{game.publisher}}</span>
+<div class="container">
+    <h2>
+        <div class="row">
+            <span>{{game.name}}</span>
+            <span>{{game.version}}</span>
+        </div>
+    </h2>
+    <div class="row">
+        <div class="col-4">
+            <div>
+                <img src="{{game.image_url}}" alt="{{game.image_alt}}" sizes="" srcset="">
+            </div>
+            <table class="table table-sm table-borderless">
+                <tr>               
+                    <td>游戏语言：</td>
+                    <td>{{game.inLanguage}}</td>
+                </tr>
+                <tr>
+                    <td>游戏类型：</td>
+                    <td>{{game.game_type}}</td>
+                </tr>
+                <tr>
+                    <td>发行商: </td>
+                    <td>{{game.publisher}}</td>
+                </tr>
+            </table >
+            <div>
+                <div class="game_tag_item" *ngFor="let tag of game.game_tags_obj" >
+                    <fa [name]="tag.icon"></fa><span>{{tag.title}}</span>
+                </div>
+            </div>
 
-<a href="{{game.detail_page}}" target="_blank" rel="noopener noreferrer">下载地址</a>
-<!-- <a href="{{game.download_page}}" target="_blank" rel="noopener noreferrer">下载详情页面</a> -->
+            <div>
+                <a href="{{game.detail_page}}" target="_blank" rel="noopener noreferrer">收录来源 <img src="/assets/images/ali_favicon.ico" alt=""></a>
+            </div>
+            <div>
+                <a href="{{game.download_page}}" target="_blank" rel="noopener noreferrer">下载地址</a>
+            </div>
+
+        </div>
+        <div class="col-8">
+            <ngb-carousel *ngIf="game.game_images_string" #carousel1>
+                <ng-template ngbSlide *ngFor="let game_img of game.game_images_string">
+                    <img [src]="game_img" alt="Random first slide">
+                </ng-template>
+                <!-- <div class="carousel-caption">
+                    <h3>First slide label</h3>
+                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                </div> -->
+            </ngb-carousel>
+            <div class="text-left mini_img_window" >
+                <div class="mini_img_content">
+                    <img *ngFor="let mini_img of game.game_images_mini_string;let i = index" 
+                    (click)="indicatorClick(i)"
+                    src="{{mini_img}}" alt="" class="img-thumbnail rounded">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h4>关于这款游戏</h4>
+    </div>
+    <div class="row">
+        <p [innerHTML]="game.description"></p>
+    </div>
+    <div class="row">
+        <h4>安装说明</h4>
+    </div>
+    <div class="row">
+        <p [innerHTML]="game.install_info"></p>
+    </div>
+    <div class="row">
+        <h4>安装说明</h4>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">推荐配置</th>
+                    <th scope="col">最低配置</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of game.sys_requirements">
+                    <th>{{item.key}}</th>
+                    <th>{{item.v1}}</th>
+                    <th>{{item.v2}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
-<div>
-    {{game.description}}
-</div>
-
-<div>
-    {{game.install_info}}
 </div>

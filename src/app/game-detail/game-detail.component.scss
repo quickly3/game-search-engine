@@ -1,0 +1,23 @@
+.mini_img_window{
+    overflow-x: scroll;
+    .mini_img_content{
+        width: max-content;
+        img{
+            cursor: pointer;
+        }
+    }
+}
+.game_tag_item{
+    background-color: #f1f1f1;
+    margin: 5px;
+    width: 55%;
+    fa{
+        padding: 0 3px;
+        margin: 0 5px 0 0;
+        background-color: #b1b1b1;
+        display: inline-block;
+        width: 26px;
+        text-align: center;
+    }
+
+}

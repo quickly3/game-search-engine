@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 import { GameDetailRoutingModule } from './game-detail-routing.module';
 import { GameDetailComponent } from './game-detail.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 const PAGES_COMPONENTS = [
     GameDetailComponent,
@@ -17,6 +18,7 @@ const PAGES_COMPONENTS = [
         CommonModule,
         FormsModule,
         GameDetailRoutingModule,
+        AngularFontAwesomeModule,
         BootstrapModule
     ],
     declarations: [

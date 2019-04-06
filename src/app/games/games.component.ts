@@ -82,4 +82,9 @@ export class GamesComponent {
                     }))
             ),
         )
+
+    searchMore = ($event)=>{
+        this.game_keywords = $event.item;
+        this.search();
+    }
 }
