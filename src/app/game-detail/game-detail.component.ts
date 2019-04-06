@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { GameService } from 'app/api/gameService';
-import { combineLatest } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap, catchError } from 'rxjs/operators';
-import { Observable } from "rxjs"
+import { HttpClient } from '@angular/common/http';
+
+
+
 
 @Component({
     selector: 'games',
@@ -11,22 +11,16 @@ import { Observable } from "rxjs"
     styleUrls: ['./game-detail.component.scss']
 })
 
-export class GameDetailComponent {
-    gameService:any;
-    game_id:string
 
-    constructor(
-        private route: ActivatedRoute,
-        gameService: GameService
-    ){
-        this.gameService = gameService;
-        this.game_id = this.route.snapshot.paramMap.get("id")
+
+
+export class GameDetailComponent {
+
+    constructor(private routeInfo: ActivatedRoute,private http: HttpClient){
     }
 
+
     ngOnInit() {
-        this.gameService({ id: this.game_id }).getGameDataById.subscribe((data) => {
-            console.log(data);
-        });
     }
 
 }

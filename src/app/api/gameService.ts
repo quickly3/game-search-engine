@@ -15,10 +15,5 @@ export class GameService {
         return this.http.get('/game/list', { params });
     }
 
-    getGameDataById = params => {
-        return this.http.get('/game/getGameDataById', { params });
-    }
-
-
 }
 

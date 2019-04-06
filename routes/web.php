@@ -23,8 +23,4 @@ Route::get('/', function () {
 });
 
 Route::get('game/list', 'GameController@getList');
-Route::get('game/getGameDataById', 'GameController@getGameDataById');
-
 Route::get('game/test', 'GameController@test');
-
-

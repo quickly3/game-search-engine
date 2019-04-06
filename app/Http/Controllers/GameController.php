@@ -44,17 +44,4 @@ class GameController extends Controller
 
     	return response()->json($data); 
     }
-
-    public function getGameDataById(Request $request){
-        $id = $request->input("id","");
-
-        $es = new ElasticModel("games","game");
-        $query = [  "match_all" => (object)[]];
-        $query_string = "name:英雄";
-        $data = $es->source(["name","version"])->query_string($query_string,"*")->paginate(10);
-
-    	return response()->json($data); 
-    }
-
-
 }
