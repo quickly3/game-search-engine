@@ -5,6 +5,7 @@ import {Observable,of} from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap, catchError} from 'rxjs/operators';
 import { GameService } from 'app/api/gameService';
 
+
 @Component({
     selector: 'games',
     templateUrl: './games.component.html',
@@ -47,6 +48,7 @@ export class GamesComponent {
 
         this.gameService.getGamesApi(params).subscribe((data) => {
             this.game_list = data['data'];
+            this.game_list.map(item=>{item.unfold = false});
             this.total_number = data['total'];
         });
     }
@@ -86,5 +88,9 @@ export class GamesComponent {
     searchMore = ($event)=>{
         this.game_keywords = $event.item;
         this.search();
+    }
+
+    toggleUnfold = (game)=>{
+        game.unfold = !game.unfold;
     }
 }

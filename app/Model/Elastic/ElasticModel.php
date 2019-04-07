@@ -66,6 +66,10 @@ class ElasticModel
                         "default_field" => $fields,
                         "query" => $keyword
                     ]
+                ],
+                "sort" => [
+                    "_score"=>"desc",
+                    "publish_date_by_ali"=>"desc"
                 ]
             ]
         ];

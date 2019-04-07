@@ -1,12 +1,13 @@
+<app-nav></app-nav>
 <div class="container">
-    <h2>
-        <div class="row">
+    <div class="row">
+        <h2 class="col-12">
             <span>{{game.name}}</span>
             <span>{{game.version}}</span>
-        </div>
-    </h2>
+        </h2>
+    </div>
     <div class="row">
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <div>
                 <img src="{{game.image_url}}" alt="{{game.image_alt}}" sizes="" srcset="">
             </div>
@@ -38,10 +39,10 @@
             </div>
 
         </div>
-        <div class="col-8">
+        <div class="col-12 col-md-8">
             <ngb-carousel *ngIf="game.game_images_string" #carousel1>
                 <ng-template ngbSlide *ngFor="let game_img of game.game_images_string">
-                    <img [src]="game_img" alt="Random first slide">
+                    <img class="main_img" [src]="game_img" alt="Random first slide">
                 </ng-template>
                 <!-- <div class="carousel-caption">
                     <h3>First slide label</h3>
@@ -58,39 +59,46 @@
             </div>
         </div>
     </div>
+
     <div class="row">
-        <h4>关于这款游戏</h4>
-    </div>
-    <div class="row">
-        <p [innerHTML]="game.description"></p>
-    </div>
-    <div class="row">
-        <h4>安装说明</h4>
-    </div>
-    <div class="row">
-        <p [innerHTML]="game.install_info"></p>
-    </div>
-    <div class="row">
-        <h4>安装说明</h4>
-    </div>
-    <div class="row">
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">推荐配置</th>
-                    <th scope="col">最低配置</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of game.sys_requirements">
-                    <th>{{item.key}}</th>
-                    <th>{{item.v1}}</th>
-                    <th>{{item.v2}}</th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="col-12">
+            <h4>关于这款游戏</h4>
+        </div>
+        <div class="col-12">
+            <p [innerHTML]="game.description"></p>
+        </div>
     </div>
 
+    <div [hidden]="!game.install_info" class="row">
+        <div class="col-12">
+            <h4>安装说明</h4>
+        </div>
+        <div class="col-12">
+            <p [innerHTML]="game.install_info"></p>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-12">
+            <h4>系统需求</h4>
+        </div>
+        <div class="col-12">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">推荐配置</th>
+                        <th scope="col">最低配置</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of game.sys_requirements">
+                        <th>{{item.key}}</th>
+                        <th>{{item.v1}}</th>
+                        <th>{{item.v2}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

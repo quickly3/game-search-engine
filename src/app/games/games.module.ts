@@ -6,10 +6,13 @@ import { FormsModule } from '@angular/forms';
 
 import { GamesComponent } from './games.component';
 import { GamesRoutingModule } from './games-routing.module';
+import { ComponentsModule } from '../components/components.module';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 const PAGES_COMPONENTS = [
     GamesComponent,
+    // NavComponent
 ];
 
 @NgModule({
@@ -17,7 +20,9 @@ const PAGES_COMPONENTS = [
         CommonModule,
         FormsModule,
         GamesRoutingModule,
-        BootstrapModule
+        BootstrapModule,
+        ComponentsModule,
+        AngularFontAwesomeModule
     ],
     declarations: [
         ...PAGES_COMPONENTS,

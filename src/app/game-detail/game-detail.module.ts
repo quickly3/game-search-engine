@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { GameDetailRoutingModule } from './game-detail-routing.module';
 import { GameDetailComponent } from './game-detail.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ComponentsModule } from '../components/components.module';
+
 
 const PAGES_COMPONENTS = [
     GameDetailComponent,
@@ -19,7 +21,8 @@ const PAGES_COMPONENTS = [
         FormsModule,
         GameDetailRoutingModule,
         AngularFontAwesomeModule,
-        BootstrapModule
+        BootstrapModule,
+        ComponentsModule
     ],
     declarations: [
         ...PAGES_COMPONENTS,

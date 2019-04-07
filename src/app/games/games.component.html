@@ -1,31 +1,33 @@
+<app-nav></app-nav>
 <div class="container">
     <div class="search-header">
         <div class="search-input">
-            <input id="typeahead-basic" type="text" class="form-control" 
+            <input id="typeahead-basic" type="text" class="form-control form-control-sm" 
                 [(ngModel)]="game_keywords" 
                 [ngbTypeahead]="search_by_keywords" 
                 (keydown)="searchKeyDown($event)"
                 (selectItem)="searchMore($event)"
                 />
-            <!-- <button type="button" class="btn btn-primary" (click)="search()">
+            <button type="button" class="btn btn-primary btn-sm" (click)="search()">
                 搜索
                 <i class="fas fa-search"></i>
-            </button> -->
+            </button>
         </div>
     </div>
-    <div class="row game_list">
-        <div class="col-12 game_item" *ngFor="let game of game_list">
-            <div class="img_zone">
+    <div class="row game_list row">
+        <div class="game_item col-12 row" *ngFor="let game of game_list">
+            <div class="img_zone col-md-2 col-4">
                 <img class="img" src="{{game.image_url}}" alt=""  routerLink="/game-detail/{{game._id}}" routerLinkActive="active">
             </div>
-            <div class="des_zone">
+            <div class="des_zone col-md-10 col-8">
                 <div>
                     <a routerLink="/game-detail/{{game._id}}" routerLinkActive="active" class="title">{{game.name}}</a>
                 </div>
                 <div>
                     <span class="badge badge-primary" *ngFor="let tag of game.game_tags_string">{{tag}}</span>
                 </div>
-                <div [innerHTML]="game.description" class="description"></div>
+                <div [innerHTML]="game.description" class="description" [ngClass]="{'description-height':!game.unfold}"></div>
+                <span class="unfold" (click)="toggleUnfold(game)"><fa name="caret-down"></fa></span>
             </div>
         </div>
     </div>

@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { GameService } from 'app/api/gameService';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-import { log } from 'util';
 
 @Component({
     selector: 'games',

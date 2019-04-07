@@ -6,17 +6,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'app/app-routing.module';
 import { AppComponent } from 'app/app.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+// import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    AngularFontAwesomeModule 
+    AngularFontAwesomeModule,
+    // ComponentsModule
   ],
   providers: [
 
