@@ -24,8 +24,15 @@ php artisan key:generate
 >  爬虫代码在scrapy 目录下   
 scrapy crawl ali  
 scrapy crawl ali2  
-sudo php artisan MysqlToEs  
+
+### 数据挖掘
+>???
+
+### 数据转换
+>sudo php artisan MysqlToEs  
 
 ###  更多数据源和功能
 >挤时间中...
 
+### 理论模型
+> 喵喵喵？
