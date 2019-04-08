@@ -7,6 +7,7 @@
                 [ngbTypeahead]="search_by_keywords" 
                 (keydown)="searchKeyDown($event)"
                 (selectItem)="searchMore($event)"
+                placeholder="只狼"
                 />
             <button type="button" class="btn btn-primary btn-sm" (click)="search()">
                 搜索
