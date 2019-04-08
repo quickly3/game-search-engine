@@ -12,7 +12,9 @@
 ### 安装部署
 >npm install  
 composer install  
-php artisan key:generate
+php artisan key:generate  
+前端开发模式 npm run watch  
+部署模式 npm run prod  
 
 ###  爬虫命令 
 >  爬虫代码在scrapy 目录下   
