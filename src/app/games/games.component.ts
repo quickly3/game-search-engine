@@ -15,9 +15,9 @@ import { GameService } from 'app/api/gameService';
 
 export class GamesComponent {
     game_list = [];
-    total_number = 70;
+    total_number = 0;
     current_page = 1;
-    row = 20;
+    row = 10;
     game_keywords = "";
     gameService
 
