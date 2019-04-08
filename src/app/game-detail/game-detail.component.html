@@ -40,7 +40,7 @@
 
         </div>
         <div class="col-12 col-md-8">
-            <ngb-carousel *ngIf="game.game_images_string" #carousel1>
+            <ngb-carousel class="game-images" *ngIf="game.game_images_string" #carousel1 interval="-1">
                 <ng-template ngbSlide *ngFor="let game_img of game.game_images_string">
                     <img class="main_img" [src]="game_img" alt="Random first slide">
                 </ng-template>

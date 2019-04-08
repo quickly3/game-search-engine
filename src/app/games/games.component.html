@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="row game_list row">
-        <div class="game_item col-12 row" *ngFor="let game of game_list">
+        <div class="game_item col-12 row" *ngFor="let game of game_list" routerLink="/game-detail/{{game._id}}" routerLinkActive="active">
             <div class="img_zone col-md-2 col-4">
                 <img class="img" src="{{game.image_url}}" alt=""  routerLink="/game-detail/{{game._id}}" routerLinkActive="active">
             </div>
@@ -28,7 +28,7 @@
                     <span class="badge badge-primary" *ngFor="let tag of game.game_tags_string">{{tag}}</span>
                 </div>
                 <div [innerHTML]="game.description" class="description" [ngClass]="{'description-height':!game.unfold}"></div>
-                <span class="unfold" (click)="toggleUnfold(game)"><fa name="caret-down"></fa></span>
+                <!-- <span class="unfold" (click)="toggleUnfold(game)"><fa name="caret-down"></fa></span> -->
             </div>
         </div>
     </div>
