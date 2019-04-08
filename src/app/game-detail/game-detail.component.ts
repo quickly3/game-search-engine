@@ -83,7 +83,12 @@ export class GameDetailComponent {
     }
 
     indicatorClick(i){
-        this.carousel1.select("ngb-slide-"+i);
+        let first_id_str = this.carousel1.slides.first.id;
+
+        let first_id = parseInt(first_id_str.replace("ngb-slide-",""))
+
+        
+        this.carousel1.select("ngb-slide-"+ (first_id+i) );
     }
 
     getTagIcon(title:string){
