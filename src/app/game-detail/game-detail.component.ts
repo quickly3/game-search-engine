@@ -34,13 +34,13 @@ export class GameDetailComponent {
     };
   
     tags_map = [
-        {title:"单人单机",icon:"user"},
-        {title:"菜鸟入门",icon:"kiwi-bird"},
-        {title:"不支持手柄",icon:"keyboard"},
         {title:"支持手柄",icon:"gamepad"},
+        {title:"单人单机",icon:"user"},
+        {title:"菜鸟入门",icon:"child"},
+        {title:"不支持手柄",icon:"keyboard"},
         {title:"2D画面",icon:"image"},
         {title:"3D画面",icon:"cube"},
-        {title:"中级水平",icon:"user-ninja"},
+        {title:"中级水平",icon:"fire"},
         {title:"冒险",icon:"paw"},
         {title:"RPG",icon:"sword"},
         {title:"解谜",icon:"puzzle-piece"},
@@ -97,6 +97,9 @@ export class GameDetailComponent {
                 return tag;
             }
         }
-        return this.tags_map[0];
+        return {
+            title,
+            icon:this.tags_map[0].icon,
+        };
     }
 }
