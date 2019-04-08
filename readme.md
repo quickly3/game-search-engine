@@ -1,6 +1,6 @@
 # Game Search Engine
 
-> 这是一个自动收集游戏信息并提供搜索引擎搜索的项目
+> 这是一个自动收集游戏信息并提供搜索引擎服务的项目
 
 ### 主要开源技术
 >后端框架 Laravel 5.6   
@@ -8,6 +8,10 @@
 爬虫框架 Scrapy 1.4  
 搜索引擎 ElasticSearch 6.5  
 关系数据库 mysql 5.7   
+
+### 爬虫数据源
+>游侠网 
+
 
 ### 安装部署
 >npm install  
@@ -21,3 +25,7 @@ php artisan key:generate
 scrapy crawl ali  
 scrapy crawl ali2  
 sudo php artisan MysqlToEs  
+
+###  更多数据源和功能
+>挤时间中...
+
