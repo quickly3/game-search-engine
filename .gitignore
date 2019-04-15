@@ -26,3 +26,4 @@ public/assets/scss
 public/assets/config.json
 public/index.html
 public/3rdpartylicenses.txt
+*.pyc
