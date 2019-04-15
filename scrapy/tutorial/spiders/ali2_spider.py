@@ -44,6 +44,8 @@ class Game(Base):
     conid = Column(Integer)
     download_page = Column(String(200))
     name_chs = Column(String(200))
+    inLanguage = Column(String(200))
+    license = Column(String(200))
     name_en = Column(String(200))
     game_type = Column(String(200))
     publisher = Column(String(200))
@@ -113,20 +115,22 @@ class Ali2Spider(scrapy.Spider):
 
         download_page = self.download_link.replace("{ali_id}",conid);
 
-        name_chs = response.css('.newdown_l1_tit_cn').extract_first();
+        name_chs = response.css('.detail_game_l_r_ctit h1::text').extract_first();
         name_chs = dr.sub('',name_chs)
 
-
-
-        name_en = response.css('.newdown_l1_tit_en::text').extract_first();
+        inLanguage = response.css('.detail_game_l_r_ctit span[itemprop=inLanguage]::text').extract_first();
+        license = response.css('.detail_game_l_r_ctit span[itemprop=license]::text').extract_first();
+        name_en = response.css('.detail_game_l_r_ctit span[itemprop=alias]::text').extract_first();
         
-        game_type = response.css('.newdown_l_con_con_info')[0].css("div a::text").extract_first();
-        publisher = response.css('.newdown_l_con_con_info')[1].css("div::text").extract_first();
+        game_type = response.css('.detail_game_l_r_info ul li')[0].css("a::text").extract_first();
+
+        publish_date_by_ali = response.css('.detail_game_l_r_info ul li')[1].css("a span::text").extract_first();
+
+        publisher = response.css('.detail_game_l_r_info ul li')[2].css("::text").extract_first();
         publisher = publisher.split("：")[1]
 
-        publish_date_by_ali = response.css('.newdown_l_con_con_info')[2].css("div a span::text").extract_first();
+        game_tags = response.css('.detail_game_l_r_tag a::text').extract();
 
-        game_tags = response.css('.detail_body_down_con_con_left_con1 a::text').extract();
         game_tags_string = ",".join(game_tags)
 
         game_images_mini_string = "";
@@ -142,57 +146,52 @@ class Ali2Spider(scrapy.Spider):
             game_images_string = ",".join(game_images)
 
 
-        
+        description = ""
         #  detail_body_con_bb_con1
-        description = response.css('.detail_body_con_bb_con1 p').extract_first();
+        description_arr = response.css('#yxjs .detail_body_left_info_con p').extract();
+        
 
-        if description != None:
-            description = dr.sub('',description)
+        if len(description_arr) > 0 :
+            description = "".join(description_arr)
 
+        # if description != None:
+        #     description = dr.sub('',description)
 
-
-        detail_body_con_bb = response.css('.detail_body_con_bb')
+        # print description;
+        # os._exit()
 
         sys_requirements = ""
         install_info = ""
         soft_requirements = ""
 
-        for item in detail_body_con_bb:
-            title = item.css(".detail_body_con_bb_title::text").extract_first();
-            # 配置要求
-            if title == "配置要求":
-                sys_requirements_key = response.css('.jiance_bg .jiance_yj li::text').extract();
-                sys_requirements_value = response.css('.jiance_bg .jiance_zdpz li::text').extract();
+        gameSetting = response.css('#pzyq .detail_body_left_info_con .gameSetting ul');
 
-                sys_requirements = [];
-                for i in range(len(sys_requirements_key)):
-                    item = {}
-                    item['key'] = sys_requirements_key[i]
+        if len(gameSetting) > 0:
 
-                    try: 
-                        sys_requirements_value[i]
-                    except IndexError: 
-                        item['value'] = ""
-                    else:
-                        item['value'] = sys_requirements_value[i]
-                    sys_requirements.append(item);
+            sys_requirements_key = gameSetting[0].css('li span::text').extract();
+            sys_requirements_value1 = gameSetting[1].css('li span::text').extract();
+            sys_requirements_value2 = gameSetting[2].css('li span::text').extract();
 
+            sys_requirements = [];
 
-                sys_requirements = json.dumps(sys_requirements)
+            for i in xrange(0,len(sys_requirements_key)):
+                item = {}
+                item['key'] = sys_requirements_key[i]
+                item['v1']  = sys_requirements_value1[i]
+                item['v2']  = sys_requirements_value2[i]
+                sys_requirements.append(item);
 
-            if title == "安装说明":
-                install_info = item.css('.detail_body_con_bb_con p').extract_first();
-                if install_info != None :
-                    install_info = dr.sub('',install_info)
+            sys_requirements = json.dumps(sys_requirements)
 
+        install_info = response.css('#azsm .detail_body_left_info_con p::text').extract();
+        install_info = ",".join(install_info)
 
+        soft_requirements = response.css('.yunxingku ul li').extract();
 
-            if title == "必备运行库":
+        soft_requirements = ",".join(soft_requirements)
 
-                soft_requirements = item.css('.detail_body_con_bb_con ul li').extract();
-
-                soft_requirements = list(map(lambda x:dr.sub('',x),soft_requirements))
-                soft_requirements = json.dumps(soft_requirements);
+        soft_requirements = soft_requirements.replace('<li>',"");
+        soft_requirements = soft_requirements.replace('</li>',"");
 
 
         update_obj = {
@@ -202,6 +201,8 @@ class Ali2Spider(scrapy.Spider):
             Game.download_page:download_page,
             Game.name_chs:name_chs,
             Game.name_en:name_en,
+            Game.inLanguage:inLanguage,
+            Game.license:license,
             Game.game_type:game_type,
             Game.publisher:publisher,
             Game.publish_date_by_ali:publish_date_by_ali,
