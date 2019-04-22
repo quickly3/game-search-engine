@@ -68,6 +68,7 @@ class Ali2Spider(scrapy.Spider):
     name = "ali2"
     current_id = 1;
     download_link = "http://www.soft5566.com/down/{ali_id}-1.html"
+    
     # start_urls = [
     #     'http://down.ali213.net/pcgame/all/0-0-0-0-new-pic-604.html'
     #     # 'http://down.ali213.net/pcgame/',
