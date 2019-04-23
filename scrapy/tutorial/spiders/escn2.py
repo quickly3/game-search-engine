@@ -11,6 +11,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 
+import re
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -26,6 +28,14 @@ Session = Session_class()
 
 class EsDaily(Base):
     __tablename__ = 'EsDaily'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200))
+    link = Column(String(200))
+    state = Column(String(200))
+
+
+class EsDailyItem(Base):
+    __tablename__ = 'EsDailyItem'
     id = Column(Integer, primary_key=True)
     title = Column(String(200))
     link = Column(String(200))
@@ -53,14 +63,47 @@ class AliSpider(scrapy.Spider):
 
 
     def parse(self, response):
-        print response.css(".mod-head > h1::text").extract_first()
 
-        update_obj = {
-            EsDaily.state:'completed',
-        }
+        conuter = 0
+        contents = response.css("#markdown_out::text").extract()
+        links = response.css("#markdown_out a::text").extract()
 
-        Session.query(EsDaily).filter(EsDaily.id==self.current_id).update(update_obj)
-        Session.commit();
+        for content in contents:
+
+            content = content.replace("、",".")
+            content = content.strip(" ");
+            match = re.search(r'\d\.', content)
+
+
+            if match is not None:
+
+                link = links[conuter]
+
+                print content
+                print match
+
+
+                daily_item_obj = EsDailyItem(title=content, link=link,state="init") 
+                Session.add(daily_item_obj)
+                Session.commit()
+
+                conuter+=1
+
+
+
+
+        # print content
+
+        # links = response.css("#markdown_out a::text").extract()
+
+        # for link in links:
+        #     print link
+        # update_obj = {
+        #     EsDaily.state:'completed',
+        # }
+
+        # Session.query(EsDaily).filter(EsDaily.id==self.current_id).update(update_obj)
+        # Session.commit();
 
         try:
             next_item = Session.query(EsDaily).filter("state='init'").order_by(EsDaily.id).first()
