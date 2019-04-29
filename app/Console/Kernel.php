@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\MysqlToEs::class
+        Commands\MysqlToEs::class,
+        Commands\EscnToEs::class,
+        Commands\EscnWordCloud::class,
     ];
 
     /**

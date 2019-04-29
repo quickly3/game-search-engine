@@ -1,0 +1,39 @@
+<app-nav></app-nav>
+<div class="container">
+    <div class="words_cloud">
+        <span class="text-info" *ngFor="let word of words_cloud" (click)="wordsCloudToKeyWords(word)">{{word.key}}</span>
+    </div>
+    <div class="search-header">
+        <div class="search-input">
+            <input id="typeahead-basic" type="text" class="form-control form-control-sm" 
+                [(ngModel)]="keywords" 
+                [ngbTypeahead]="search_typeahead" 
+                (keydown)="searchKeyDown($event)"
+                (selectItem)="search()"
+                placeholder="test"
+                />
+            <button type="button" class="btn btn-primary btn-sm" (click)="search()">
+                搜索
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="row escn_list row">
+        <div class="daily_item col-12 row" *ngFor="let daily_item of escn_list" routerLinkActive="active">
+            <div class="des_zone col-md-10 col-8">
+                <div>
+                    <span class="title">{{daily_item.title}}</span>
+                </div>
+                <div>
+                    <a [href]="daily_item.link" target="_blank">{{daily_item.link}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pagination">
+        <ngb-pagination class="navigation" [collectionSize]="total_number" [(page)]="current_page"
+            [pageSize]="row" [maxSize]="5" [rotate]="true" size="sm" (pageChange)="pageChange()"></ngb-pagination>
+    </div> 
+</div>

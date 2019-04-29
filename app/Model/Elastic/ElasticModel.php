@@ -19,6 +19,10 @@ class ElasticModel
         $this->page = 1;
         $this->size = 10;
         $this->from = 0;
+        $this->orders = [
+                            "_score"=>"desc",
+                        ];
+
     }
 
     public function index_maped($index_name){
@@ -67,12 +71,13 @@ class ElasticModel
                         "query" => $keyword
                     ]
                 ],
-                "sort" => [
-                    "_score"=>"desc",
-                    "publish_date_by_ali"=>"desc"
-                ]
+                "sort" => $this->orders
             ]
         ];
+
+        if(isset($this->highlight)){
+            $params["body"]["highlight"] = $this->highlight;
+        }
 
         $this->request_body = $params;
         $this->setSource();
@@ -109,6 +114,16 @@ class ElasticModel
         return $this;
     }
 
+    public function orderBy($orders){
+        $this->orders = $orders;
+        return $this;
+    }
+
+    public function highlight($highlight){
+        $this->highlight = $highlight;
+        return $this;
+    }
+
     public function query($query){
 
         $params = [
@@ -141,7 +156,6 @@ class ElasticModel
         $res['from'] = $from;
         $res['to'] = $from + $size;
         $res['per_page'] = $size;
-
 
         $res['data'] = $this->getIdRes();
         return $res;
@@ -184,10 +198,16 @@ class ElasticModel
     public function getIdRes(){
         $res = [];
         $hits = $this->reqRes["hits"]["hits"];
+
         if(!empty($hits)){
             foreach ($hits as $key => $item) {
                 $source = $item['_source'];
                 $source['_id'] = $item['_id'];
+
+                if(isset($item['highlight'])){
+                    $source['highlight'] = $item['highlight'];
+                }
+
                 $res[] = $source;
             }
         }

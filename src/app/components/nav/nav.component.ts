@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-nav',
@@ -7,12 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   navShow = false
-  constructor() { }
-
-  ngOnInit() {
+  constructor(public router: Router) {
+    this.router = router;
   }
 
-  toggleNav(){
+  ngOnInit() {
+    // console.log(this.router);
+    // this.router.url.then()
+    // this.router.url.subscribe(url => console.log(url[0].path));
+  }
+
+  toggleNav() {
     this.navShow = !this.navShow;
   }
 }

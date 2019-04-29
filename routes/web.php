@@ -23,6 +23,11 @@ Route::get('/', function () {
 });
 
 Route::get('game/list', 'GameController@getList');
+
+Route::get('escn/getDailyList', 'EscnController@getDailyList');
+Route::get('escn/getWordsCloud', 'EscnController@getWordsCloud');
+
+
 Route::get('game/getGameDataById', 'GameController@getGameDataById');
 
 Route::get('game/test', 'GameController@test');

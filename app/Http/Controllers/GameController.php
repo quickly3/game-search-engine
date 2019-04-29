@@ -17,19 +17,35 @@ class GameController extends Controller
     public function getList(Request $request){
 
         $keywords = $request->input("keywords","");
-        $search_type = $request->input("search_type","");
-
-        if(trim($keywords) == ""){
-            $keywords = "*";
-        }
+        $search_type = trim($request->input("search_type",""));
 
         $es = new ElasticModel("games","games");
-        $query_string = "name:{$keywords}";
+
+
         if($search_type == "simple"){
             $data = $es->source(["name","version"]);
+
+            if(trim($keywords) == ""){
+                $keywords = "''";
+            }
+
         }else{
             $data = $es;
+
+            if(trim($keywords) == ""){
+                $keywords = "*";
+            }
         }
+
+        $orders = [
+                        "_score"=>"desc",
+                        "publish_date_by_ali"=>"desc"
+                    ];
+
+
+        $query_string = "name:{$keywords}";
+
+        $data->orderBy($orders);
 
         $data = $data->query_string($query_string,"*")->paginate(10);
 

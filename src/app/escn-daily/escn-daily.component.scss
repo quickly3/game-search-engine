@@ -1,0 +1,26 @@
+.search-header{
+    .search-input{
+        width: 300px;
+        margin:0 auto;
+        margin: 10px auto;
+        input{
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 15px;
+        }
+    }
+}
+
+.words_cloud{
+    margin: 20px 5px;
+    span{
+        font-size: 12px;
+        padding-right: 5px;
+        cursor: pointer;        
+    }
+}
+
+.daily_item{
+    margin-bottom: 15px;
+}

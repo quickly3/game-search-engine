@@ -37,6 +37,7 @@ class EsDaily(Base):
 class EsDailyItem(Base):
     __tablename__ = 'EsDailyItem'
     id = Column(Integer, primary_key=True)
+    pid = Column(Integer)
     title = Column(String(200))
     link = Column(String(200))
     state = Column(String(200))
@@ -68,42 +69,32 @@ class AliSpider(scrapy.Spider):
         contents = response.css("#markdown_out::text").extract()
         links = response.css("#markdown_out a::text").extract()
 
+        pattern = re.compile(r'^\d\.')
+
         for content in contents:
 
             content = content.replace("、",".")
             content = content.strip(" ");
-            match = re.search(r'\d\.', content)
-
+            content = content.replace("\n", "");
+            
+            match = re.search(r'^\d\.', content)
 
             if match is not None:
-
+                content = re.sub(pattern, '', content)
                 link = links[conuter]
 
-                print content
-                print match
-
-
-                daily_item_obj = EsDailyItem(title=content, link=link,state="init") 
+                daily_item_obj = EsDailyItem(pid=self.current_id,title=content, link=link,state="init") 
                 Session.add(daily_item_obj)
                 Session.commit()
 
                 conuter+=1
 
+        update_obj = {
+            EsDaily.state:'completed',
+        }
 
-
-
-        # print content
-
-        # links = response.css("#markdown_out a::text").extract()
-
-        # for link in links:
-        #     print link
-        # update_obj = {
-        #     EsDaily.state:'completed',
-        # }
-
-        # Session.query(EsDaily).filter(EsDaily.id==self.current_id).update(update_obj)
-        # Session.commit();
+        Session.query(EsDaily).filter(EsDaily.id==self.current_id).update(update_obj)
+        Session.commit();
 
         try:
             next_item = Session.query(EsDaily).filter("state='init'").order_by(EsDaily.id).first()

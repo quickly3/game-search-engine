@@ -21,15 +21,23 @@ php artisan key:generate
 部署模式 npm run prod  
 
 ###  爬虫命令 
->  爬虫代码在scrapy 目录下   
+>  爬虫代码在scrapy 目录下 
+
+游侠网 
 scrapy crawl ali  
 scrapy crawl ali2  
+
+Elasticsearch日报
+scrapy crawl escn  
+scrapy crawl escn2
 
 ### 数据挖掘
 >???
 
 ### 数据转换
 >sudo php artisan MysqlToEs  
+>sudo php artisan EscnToEs  
+
 
 ###  更多数据源和功能
 >挤时间中...
