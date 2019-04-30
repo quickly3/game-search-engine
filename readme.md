@@ -2,6 +2,9 @@
 
 > 这是一个自动收集游戏信息并提供搜索引擎服务的项目
 
+### 网站地址
+<http://www.zhouhongbin.com>
+
 ### 主要开源技术
 >后端框架 Laravel 5.6   
 前端框架 Angular 7.2.12  
@@ -17,7 +20,7 @@
 >npm install  
 composer install  
 php artisan key:generate  
-前端开发模式 npm run watch  
+前端开发 监听模式 npm run watch  
 部署模式 npm run prod  
 
 ###  爬虫命令 
@@ -32,7 +35,7 @@ scrapy crawl escn
 scrapy crawl escn2
 
 ### 数据挖掘
->???
+>???有么
 
 ### 数据转换
 >sudo php artisan MysqlToEs  
