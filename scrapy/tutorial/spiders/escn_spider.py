@@ -5,6 +5,7 @@
 import scrapy
 import sys
 import sqlalchemy
+import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -52,9 +53,18 @@ class AliSpider(scrapy.Spider):
 
             daily_obj = Game(title=title, link=link,state="init")    
 
-            # if title.find("Elastic日报") > -1 :
-            Session.add(daily_obj)
-            Session.commit()
+
+            where="link=\""+link+"\""
+            duplicate_record = Session.query(Game).filter(where).first()
+
+            if duplicate_record == None :
+                # if title.find("Elastic日报") > -1 :
+                Session.add(daily_obj)
+                Session.commit()
+            else:
+                next_page_a_link = None
+                os._exit(0);
+
 
         next_page_li = response.css('.pagination li:nth-last-child(2)');
         next_page_a_text = next_page_li.css('a::text').extract_first();
@@ -69,8 +79,8 @@ class AliSpider(scrapy.Spider):
             if next_page_a_text == ">":
                 next_page_a_link = next_page_li.css('a::attr(href)').extract_first();
             else:
-                next_page_a_link = none;
-        
+                next_page_a_link = None
+
 
         if next_page_a_link is not None:
             yield response.follow(next_page_a_link, callback=self.parse)

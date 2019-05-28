@@ -1,21 +1,19 @@
 PUT escn 
 {
   "mappings": {
-    "escn":{
-      "properties": { 
-        "title": {
-          "type": "text",
-          "fielddata":true,
-          "fields": {
-            "keyword": {
-              "type": "keyword",
-              "ignore_above": 256
-            }
-          },
-          "analyzer": "ik_max_word"
+    "properties": { 
+      "title": {
+        "type": "text",
+        "fielddata":true,
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
         },
-        "link":    { "type": "keyword"  }
-      }
+        "analyzer": "ik_max_word"
+      },
+      "link":    { "type": "keyword"  }
     }
   }
 }

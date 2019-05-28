@@ -39,7 +39,7 @@ class EscnService
 
         $stop_words = [
             "elasticsearch","使用","elastic","es","21","2018","如何","基于","中国","一个","进行","发售",
-            "开始","门票","上海","合作","请和","赞助","报名","接受","看看","了解","day"
+            "开始","门票","上海","合作","请和","赞助","报名","接受","看看","申请","了解","day"
         ];
 
         $cloud_words = array_filter($cloud_words,function($item) use ($stop_words){

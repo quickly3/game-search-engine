@@ -82,10 +82,15 @@ class AliSpider(scrapy.Spider):
             if match is not None:
                 content = re.sub(pattern, '', content)
                 link = links[conuter]
+                
+                where="link=\""+link+"\""
+                duplicate_record = Session.query(EsDailyItem).filter(where).first()
 
-                daily_item_obj = EsDailyItem(pid=self.current_id,title=content, link=link,state="init") 
-                Session.add(daily_item_obj)
-                Session.commit()
+                if duplicate_record == None :
+                    daily_item_obj = EsDailyItem(pid=self.current_id,title=content, link=link,state="init") 
+                    Session.add(daily_item_obj)
+                    Session.commit()
+
 
                 conuter+=1
 

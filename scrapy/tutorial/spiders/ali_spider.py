@@ -33,6 +33,7 @@ class Game(Base):
     version = Column(String(200))
     size = Column(String(50))
     detail_page = Column(String(200))
+    state = Column(Integer)
 
 
 class AliSpider(scrapy.Spider):
@@ -43,6 +44,9 @@ class AliSpider(scrapy.Spider):
         'http://down.ali213.net/pcgame/',
     ]
 
+    isDuplicate_cnt = 0;
+    isDuplicate = False
+
     def parse(self, response):
         for game in response.css('.list_body_con'):
             name = game.css('.list_body_con_con a::text').extract_first();
@@ -52,8 +56,6 @@ class AliSpider(scrapy.Spider):
             size = game.css('.list_body_con_pf .text::text').extract_first();
             detail_page = "http://down.ali213.net"+game.css('.list_body_con_down::attr(href)').extract_first();
 
-
-            print name
             # data_obj = {
             #     'name':name ,
             #     'image_url':image_url ,
@@ -62,17 +64,38 @@ class AliSpider(scrapy.Spider):
             #     'size':size ,
             #     'detail_page':detail_page ,
             # }
+            # detail_page = "http://down.ali213.net/pcgame/YS3CHSGREEN.html"
+            where="detail_page=\""+detail_page+"\""
+            duplicate_game = Session.query(Game).filter(where).first()
 
-            game_obj = Game(name=name, image_url=image_url, image_alt=image_alt, version=version, size=size, detail_page=detail_page)            
-            Session.add(game_obj)
-            Session.commit()
+            if duplicate_game == None :
+                AliSpider.isDuplicate_cnt=0
+                AliSpider.isDuplicate = False
+                game_obj = Game(name=name, image_url=image_url, image_alt=image_alt, version=version, size=size, detail_page=detail_page)            
+                Session.add(game_obj)
+                Session.commit()
+            else:
+                old_game = Session.query(Game).filter(where).filter("state=1 or state=2").first()
 
-            # print data_obj;
+                if old_game != None:
+                    update_obj = {
+                        Game.state:0,
+                    }
+                    Session.query(Game).filter(Game.id==old_game.id).update(update_obj)
+                    Session.commit();
 
-        next_page_str = '.list_body_page a[title=下一页]::attr(href)';
 
-        next_page = response.css(next_page_str).extract_first()
+                AliSpider.isDuplicate_cnt+=1
+                if AliSpider.isDuplicate_cnt > 20:
+                    AliSpider.isDuplicate = True
+                    break
+
+        if AliSpider.isDuplicate == True:
+            next_page = None
+        else:
+            next_page_str = '.list_body_page a[title=下一页]::attr(href)';
+            next_page = response.css(next_page_str).extract_first()
+
 
         if next_page is not None:
-
             yield response.follow(next_page, callback=self.parse)

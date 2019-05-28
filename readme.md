@@ -27,12 +27,14 @@ php artisan key:generate
 >  爬虫代码在scrapy 目录下 
 
 游侠网 
-scrapy crawl ali  
+>scrapy crawl ali  
 scrapy crawl ali2  
 
 Elasticsearch日报
-scrapy crawl escn  
+>scrapy crawl escn  
 scrapy crawl escn2
+scrapy crawl nba_player
+
 
 ### 数据挖掘
 >???有么

@@ -54,11 +54,13 @@ class EscnToEs extends Command
 
         $es = new ElasticModel("escn","escn");
 
-        $count = DB::table("EsDailyItem")->count();
+        $count = DB::table("EsDailyItem")->where("state","init")->count();
         $current = 0;
 
-        $datas = DB::table("EsDailyItem")->select()->orderBy("id")->chunk($row,function($datas) use (&$current,$count,$es) {
+        while($datas = DB::table("EsDailyItem")->where("state","init")->select()->orderBy("id")->limit(100)->get()){
+            $ids = [];
             foreach ($datas as $key => $data) {
+                $ids[] = $data->id;
 
                 $params = [
                     "index" => "escn",
@@ -72,11 +74,13 @@ class EscnToEs extends Command
 
             $current += count($datas);
 
+            DB::table("EsDailyItem")->whereIn("id",$ids)->update(["state"=>"completed"]);
+
             $this->info("{$current}/{$count}");
 
             if(count($datas) == 0 ){
                 return false;
-            }
-        });
+            }            
+        }
     }
 }

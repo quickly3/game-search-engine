@@ -58,17 +58,19 @@ class MysqlToEs extends Command
             "type" => "account",
         ];
 
-        $count = DB::table("Game")->count();
+        $count = DB::table("Game")->where("state",1)->count();
         $current = 0;
 
         while(true){
             $datas = DB::table("Game")->select()
-            ->offset($start*$row)->limit($row)->get();
+            ->where("state",1)
+            ->limit($row)->get();
 
             $start++;
-
+            $ids = [];
             foreach ($datas as $key => $data) {
                 $data->mysql_id = $data->id;
+                $ids[] = $data->id;
                 unset($data->id);
                 $data->description = trim($data->description);
 
@@ -106,6 +108,8 @@ class MysqlToEs extends Command
                 $data = $es->client->index($params);
 
             }
+            DB::table("Game")->whereIn("id", $ids)->update(["state"=>2]);
+
             $current += count($datas);
 
             $this->info("{$current}/{$count}");
