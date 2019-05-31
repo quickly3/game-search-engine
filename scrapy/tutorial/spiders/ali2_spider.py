@@ -15,10 +15,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.orm import sessionmaker
 
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
+# settings.py
+from dotenv import load_dotenv
+from pathlib import Path
+env_path = Path('..')/'.env'
+load_dotenv(dotenv_path=env_path)
 
-engine = create_engine("mysql+pymysql://root:root@localhost/py?charset=utf8", encoding='utf-8', echo=True)
+DB_USERNAME = os.getenv("DB_USERNAME")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+
+engine = create_engine("mysql+pymysql://"+DB_USERNAME+":"+DB_PASSWORD+"root@localhost/py?charset=utf8", encoding='utf-8', echo=True)
 
 Base = declarative_base()
 

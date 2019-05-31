@@ -1,0 +1,7 @@
+pip install scrapy
+pip install sqlalchemy
+pip install pymysql
+pip install urlparse3
+pip install python-dotenv
+
+
