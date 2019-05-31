@@ -12,8 +12,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 engine = create_engine("mysql+pymysql://root:root@localhost/py?charset=utf8", encoding='utf-8', echo=True)
 
@@ -54,8 +54,7 @@ class AliSpider(scrapy.Spider):
             daily_obj = Game(title=title, link=link,state="init")    
 
 
-            where="link=\""+link+"\""
-            duplicate_record = Session.query(Game).filter(where).first()
+            duplicate_record = Session.query(Game).filter(Game.link==link).first()
 
             if duplicate_record == None :
                 # if title.find("Elastic日报") > -1 :

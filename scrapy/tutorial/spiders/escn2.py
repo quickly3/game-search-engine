@@ -13,8 +13,8 @@ from sqlalchemy.orm import sessionmaker
 
 import re
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 engine = create_engine("mysql+pymysql://root:root@localhost/py?charset=utf8", encoding='utf-8', echo=True)
 
@@ -53,9 +53,9 @@ class AliSpider(scrapy.Spider):
         # game_obj = Game(name=name, image_url=image_url, image_alt=image_alt, version=version, size=size, detail_page=detail_page)            
         
         try:
-            esDaily = Session.query(EsDaily).filter("state='init'").order_by(EsDaily.id).first()
+            esDaily = Session.query(EsDaily).filter(EsDaily.state=='init').order_by(EsDaily.id).first()
         except BaseException :
-            print BaseException
+            print(BaseException)
         else:
             # self.current_data = game;
             self.current_id = esDaily.id;
@@ -83,8 +83,7 @@ class AliSpider(scrapy.Spider):
                 content = re.sub(pattern, '', content)
                 link = links[conuter]
                 
-                where="link=\""+link+"\""
-                duplicate_record = Session.query(EsDailyItem).filter(where).first()
+                duplicate_record = Session.query(EsDailyItem).filter(EsDailyItem.link==link).first()
 
                 if duplicate_record == None :
                     daily_item_obj = EsDailyItem(pid=self.current_id,title=content, link=link,state="init") 
@@ -102,11 +101,11 @@ class AliSpider(scrapy.Spider):
         Session.commit();
 
         try:
-            next_item = Session.query(EsDaily).filter("state='init'").order_by(EsDaily.id).first()
+            next_item = Session.query(EsDaily).filter(EsDaily.state=='init').order_by(EsDaily.id).first()
             self.current_id = next_item.id
             # next_game = Session.query(Game).filter(Game.id == self.current_id).one()
         except BaseException :
-            print "All thing done."
+            print("All thing done.")
         else:
             next_page_url = next_item.link
             yield response.follow(next_page_url, callback=self.parse)

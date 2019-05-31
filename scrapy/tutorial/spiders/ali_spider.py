@@ -11,8 +11,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 engine = create_engine("mysql+pymysql://root:root@localhost/py?charset=utf8", encoding='utf-8', echo=True)
 
@@ -48,6 +48,10 @@ class AliSpider(scrapy.Spider):
     isDuplicate = False
 
     def parse(self, response):
+
+        print("xxx1")
+        print(response.css('.list_body_con'))
+
         for game in response.css('.list_body_con'):
             name = game.css('.list_body_con_con a::text').extract_first();
             image_url = game.css('.list_body_con_img img::attr(data-original)').extract_first();
@@ -56,15 +60,9 @@ class AliSpider(scrapy.Spider):
             size = game.css('.list_body_con_pf .text::text').extract_first();
             detail_page = "http://down.ali213.net"+game.css('.list_body_con_down::attr(href)').extract_first();
 
-            # data_obj = {
-            #     'name':name ,
-            #     'image_url':image_url ,
-            #     'image_alt':image_alt ,
-            #     'version':version ,
-            #     'size':size ,
-            #     'detail_page':detail_page ,
-            # }
-            # detail_page = "http://down.ali213.net/pcgame/YS3CHSGREEN.html"
+
+
+
             where="detail_page=\""+detail_page+"\""
             duplicate_game = Session.query(Game).filter(where).first()
 

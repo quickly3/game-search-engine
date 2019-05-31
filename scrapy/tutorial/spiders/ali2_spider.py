@@ -6,7 +6,7 @@ import scrapy
 import sys
 import sqlalchemy
 import os
-import urlparse 
+import urlparse3 as urlparse
 import json
 import re
 
@@ -15,8 +15,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Text
 from sqlalchemy.orm import sessionmaker
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 engine = create_engine("mysql+pymysql://root:root@localhost/py?charset=utf8", encoding='utf-8', echo=True)
 
@@ -80,7 +80,7 @@ class Ali2Spider(scrapy.Spider):
         try:
             game = Session.query(Game).filter("state=0").order_by(Game.id).first()
         except BaseException :
-            print BaseException
+            print(BaseException)
         else:
             # self.current_data = game;
             self.current_id = game.id;
@@ -96,7 +96,7 @@ class Ali2Spider(scrapy.Spider):
         id_zone_url = response.css('#ali_comment_pc_global::attr(src)').extract_first();
 
         if id_zone_url != None:
-            query = urlparse.urlparse(id_zone_url).query
+            query = urlparse.parse_url(id_zone_url).query
             params = dict([(k,v[0]) for k,v in urlparse.parse_qs(query).items()])
 
             game_ids = params['sid'].split("-")
@@ -106,7 +106,7 @@ class Ali2Spider(scrapy.Spider):
         else:
             id_zone_url = response.css('#ali_hits_pc_global::attr(src)').extract_first();
 
-            query = urlparse.urlparse(id_zone_url).query
+            query = urlparse.parse_url(id_zone_url).query
             params = dict([(k,v[0]) for k,v in urlparse.parse_qs(query).items()])
 
             appid = params['entityID']
@@ -227,7 +227,7 @@ class Ali2Spider(scrapy.Spider):
             self.current_id = next_game.id
             # next_game = Session.query(Game).filter(Game.id == self.current_id).one()
         except BaseException :
-            print "All thing done."
+            print("All thing done.")
         else:
             next_page_url = next_game.detail_page + '?_=' + str(next_game.id);
             yield response.follow(next_page_url, callback=self.parse)
