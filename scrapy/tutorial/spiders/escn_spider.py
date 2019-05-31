@@ -21,7 +21,7 @@ load_dotenv(dotenv_path=env_path)
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
-engine = create_engine("mysql+pymysql://"+DB_USERNAME+":"+DB_PASSWORD+"@localhost/py?charset=utf8", encoding='utf-8', echo=True)
+engine = create_engine("mysql+pymysql://"+DB_PASSWORD+":"+DB_USERNAME+"@localhost/py?charset=utf8", encoding='utf-8', echo=True)
 
 Base = declarative_base()
 
