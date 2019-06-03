@@ -6,6 +6,7 @@ import scrapy
 import sys
 import sqlalchemy
 import os
+import re
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -18,10 +19,11 @@ from pathlib import Path
 env_path = Path('..')/'.env'
 load_dotenv(dotenv_path=env_path)
 
+DB_DATABASE = os.getenv("DB_DATABASE")
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
-engine = create_engine("mysql+pymysql://"+DB_USERNAME+":"+DB_PASSWORD+"@localhost/Game?charset=utf8", encoding='utf-8', echo=False)
+engine = create_engine("mysql+pymysql://"+DB_USERNAME+":"+DB_PASSWORD+"@localhost/"+DB_DATABASE+"?charset=utf8", encoding='utf-8', echo=False)
 Base = declarative_base()
 
 
@@ -47,7 +49,7 @@ class AliSpider(scrapy.Spider):
     name = "ali"
     start_urls = [
         # 'http://down.ali213.net/pcgame/all/0-0-0-0-new-pic-604.html'
-        'http://down.ali213.net/pcgame/',
+        'https://down.ali213.net/pcgame/all/0-0-0-0-new-pic-1',
     ]
 
     isDuplicate_cnt = 0;
@@ -55,28 +57,32 @@ class AliSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        for game in response.css('.list_body_con'):
-            name = game.css('.list_body_con_con a::text').extract_first();
-            image_url = game.css('.list_body_con_img img::attr(data-original)').extract_first();
-            image_alt = game.css('.list_body_con_img img::attr(alt)').extract_first();
-            version = game.css('.list_body_con_img_bg span::text').extract_first();
-            size = game.css('.list_body_con_pf .text::text').extract_first();
-            detail_page = "http://down.ali213.net"+game.css('.list_body_con_down::attr(href)').extract_first();
+        for game in response.css('.famous-li'):
+            name = game.css('.game-name::text').extract_first();
+            image_url = game.css('.content-a img::attr(src)').extract_first();
+            # image_alt = game.css('.list_body_con_img img::attr(alt)').extract_first();
+            # version = game.css('.list_body_con_img_bg span::text').extract_first();
+            size = game.css('.game-down::text').extract_first();
+            p1 = re.compile(r'[(](.*?)[)]', re.S)
+            matches = re.findall(p1, size)
+            size = matches[0]
 
+            detail_page = "http://down.ali213.net"+game.css('.content-a::attr(href)').extract_first();
 
-
-
-            where="detail_page=\""+detail_page+"\""
-            duplicate_game = Session.query(Game).filter(where).first()
+            # where="detail_page=\""+detail_page+"\""
+            duplicate_game = Session.query(Game).filter(Game.detail_page==detail_page).first()
 
             if duplicate_game == None :
                 AliSpider.isDuplicate_cnt=0
                 AliSpider.isDuplicate = False
-                game_obj = Game(name=name, image_url=image_url, image_alt=image_alt, version=version, size=size, detail_page=detail_page)            
+                game_obj = Game(name=name, image_url=image_url, size=size, detail_page=detail_page,state=0)            
                 Session.add(game_obj)
                 Session.commit()
+                print("Add")
+
             else:
-                old_game = Session.query(Game).filter(where).filter("state=1 or state=2").first()
+                print("Dup")
+                old_game = Session.query(Game).filter(Game.detail_page==detail_page).filter(sqlalchemy.text("state=1 or state=2")).first()
 
                 if old_game != None:
                     update_obj = {
@@ -94,9 +100,8 @@ class AliSpider(scrapy.Spider):
         if AliSpider.isDuplicate == True:
             next_page = None
         else:
-            next_page_str = '.list_body_page a[title=下一页]::attr(href)';
+            next_page_str = '.page-next::attr(href)';
             next_page = response.css(next_page_str).extract_first()
-
 
         if next_page is not None:
             yield response.follow(next_page, callback=self.parse)
