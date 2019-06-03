@@ -6,14 +6,16 @@ import scrapy
 import sys
 import sqlalchemy
 import os
-import urlparse3 as urlparse
 import json
 import re
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text,text
 from sqlalchemy.orm import sessionmaker
+
+from urllib.parse import urlparse,parse_qs
+
 
 # settings.py
 from dotenv import load_dotenv
@@ -83,19 +85,13 @@ class Ali2Spider(scrapy.Spider):
 
     def start_requests(self):
         # game_obj = Game(name=name, image_url=image_url, image_alt=image_alt, version=version, size=size, detail_page=detail_page)            
-        
-        try:
-            game = Session.query(Game).filter("state=0").order_by(Game.id).first()
-        except BaseException :
-            print(BaseException)
-        else:
-            # self.current_data = game;
-            self.current_id = game.id;
+        game = Session.query(Game).filter(text("state=0")).order_by(Game.id).first()
+
+        self.current_id = game.id;
             # 
-            yield scrapy.Request(game.detail_page, self.parse)
+        yield scrapy.Request(game.detail_page, self.parse)
 
-
-
+            # self.current_data = game;
 
         
     def parse(self, response):
@@ -103,8 +99,9 @@ class Ali2Spider(scrapy.Spider):
         id_zone_url = response.css('#ali_comment_pc_global::attr(src)').extract_first();
 
         if id_zone_url != None:
-            query = urlparse.parse_url(id_zone_url).query
-            params = dict([(k,v[0]) for k,v in urlparse.parse_qs(query).items()])
+
+            query = urlparse(id_zone_url).query
+            params = dict([(k,v[0]) for k,v in parse_qs(query).items()])
 
             game_ids = params['sid'].split("-")
 
@@ -113,8 +110,8 @@ class Ali2Spider(scrapy.Spider):
         else:
             id_zone_url = response.css('#ali_hits_pc_global::attr(src)').extract_first();
 
-            query = urlparse.parse_url(id_zone_url).query
-            params = dict([(k,v[0]) for k,v in urlparse.parse_qs(query).items()])
+            query = urlparse(id_zone_url).query
+            params = dict([(k,v[0]) for k,v in parse_qs(query).items()])
 
             appid = params['entityID']
             conid = params['channelID']
@@ -182,7 +179,7 @@ class Ali2Spider(scrapy.Spider):
 
             sys_requirements = [];
 
-            for i in xrange(0,len(sys_requirements_key)):
+            for i in range(0,len(sys_requirements_key)):
                 item = {}
                 item['key'] = sys_requirements_key[i]
                 item['v1']  = sys_requirements_value1[i]
@@ -230,7 +227,7 @@ class Ali2Spider(scrapy.Spider):
         # self.current_id += 1;
 
         try:
-            next_game = Session.query(Game).filter("state=0").order_by(Game.id).first()
+            next_game = Session.query(Game).filter(text("state=0")).order_by(Game.id).first()
             self.current_id = next_game.id
             # next_game = Session.query(Game).filter(Game.id == self.current_id).one()
         except BaseException :

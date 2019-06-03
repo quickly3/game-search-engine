@@ -60,6 +60,10 @@ class AliSpider(scrapy.Spider):
         for game in response.css('.famous-li'):
             name = game.css('.game-name::text').extract_first();
             image_url = game.css('.content-a img::attr(src)').extract_first();
+
+            if image_url == None:
+                image_url = game.css('.content-a img::attr(data-original)').extract_first();
+
             # image_alt = game.css('.list_body_con_img img::attr(alt)').extract_first();
             # version = game.css('.list_body_con_img_bg span::text').extract_first();
             size = game.css('.game-down::text').extract_first();
@@ -78,10 +82,7 @@ class AliSpider(scrapy.Spider):
                 game_obj = Game(name=name, image_url=image_url, size=size, detail_page=detail_page,state=0)            
                 Session.add(game_obj)
                 Session.commit()
-                print("Add")
-
             else:
-                print("Dup")
                 old_game = Session.query(Game).filter(Game.detail_page==detail_page).filter(sqlalchemy.text("state=1 or state=2")).first()
 
                 if old_game != None:
