@@ -64,8 +64,6 @@ class AliSpider(scrapy.Spider):
             if image_url == None:
                 image_url = game.css('.content-a img::attr(data-original)').extract_first();
 
-            # image_alt = game.css('.list_body_con_img img::attr(alt)').extract_first();
-            # version = game.css('.list_body_con_img_bg span::text').extract_first();
             size = game.css('.game-down::text').extract_first();
             p1 = re.compile(r'[(](.*?)[)]', re.S)
             matches = re.findall(p1, size)
@@ -73,7 +71,6 @@ class AliSpider(scrapy.Spider):
 
             detail_page = "http://down.ali213.net"+game.css('.content-a::attr(href)').extract_first();
 
-            # where="detail_page=\""+detail_page+"\""
             duplicate_game = Session.query(Game).filter(Game.detail_page==detail_page).first()
 
             if duplicate_game == None :
@@ -91,7 +88,6 @@ class AliSpider(scrapy.Spider):
                     }
                     Session.query(Game).filter(Game.id==old_game.id).update(update_obj)
                     Session.commit();
-
 
                 AliSpider.isDuplicate_cnt+=1
                 if AliSpider.isDuplicate_cnt > 20:
