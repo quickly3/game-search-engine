@@ -1,0 +1,31 @@
+PUT danmu
+{
+  "settings" : {
+      "number_of_shards" : 1
+  },
+  "mappings": {
+    "danmu": {
+      "properties": {
+        "cid": {
+          "type": "long"
+        }
+        "ssid": {
+          "type": "integer"
+        },
+        "text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "string": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

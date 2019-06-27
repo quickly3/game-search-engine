@@ -1,0 +1,68 @@
+PUT fanju
+{
+  "settings" : {
+      "number_of_shards" : 1
+  },
+  "mappings": {
+    "danmu": {
+      "properties": {
+        "cid": {
+          "type": "long"
+        },
+        "color": {
+          "type": "keyword"
+        },
+        "danmu_id": {
+          "type": "long"
+        },
+        "episode": {
+          "type": "keyword"
+        },
+        "send_time": {
+          "type": "date"
+        },
+        "ss_title": {
+          "type": "keyword"
+        },
+        "ssid": {
+          "type": "integer"
+        },
+        "text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "string": {
+          "type": "keyword"
+        },
+        "time_line": {
+          "type": "long"
+        },
+        "type1": {
+          "type": "integer"
+        },
+        "type2": {
+          "type": "integer"
+        },
+        "type3": {
+          "type": "integer"
+        },
+        "type4": {
+          "type": "integer"
+        },
+        "fanju_relation": { 
+          "type": "join",
+          "relations": {
+            "fanju": "episode",
+            "episode":"danmu"
+          }
+        }       
+      }
+    }
+  }
+}

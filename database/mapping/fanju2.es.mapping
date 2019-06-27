@@ -1,0 +1,149 @@
+PUT fanju
+{
+  "settings" : {
+      "number_of_shards" : 1
+  },
+  "mappings": {
+    "fanju": {
+      "dynamic":false,
+      "properties": {
+        "doc_type": {
+          "type": "keyword"
+        },
+        "badge": {
+          "type": "keyword"
+        },
+        "badge_type": {
+          "type": "integer"
+        },
+        "cover": {
+          "type": "keyword"
+        },
+        "index_show": {
+          "type": "keyword"
+        },
+        "episode": {
+          "type": "long"
+        },
+        "is_finish": {
+          "type": "integer"
+        },
+        "link": {
+          "type": "keyword"
+        },
+        "media_id": {
+          "type": "integer"
+        },
+        "follow": {
+            "type": "long"
+        },
+        "follow_string": {
+            "type": "keyword"
+        },
+        "play": {
+            "type": "long"
+        },
+        "play_string": {
+            "type": "keyword"
+        },            
+        "pub_date": {
+            "type": "date"
+        },
+        "pub_real_time": {
+            "type": "date"
+        },
+        "renewal_time": {
+            "type": "date"
+        },
+        "score": {
+            "type": "long"
+        },
+        "time_show": {
+            "type": "keyword"
+        },
+        "type": {
+            "type": "keyword"
+        },
+        "season_id": {
+          "type": "integer"
+        },
+        "ssid": {
+          "type": "integer"
+        },
+        "fanju_title": {
+          "type": "keyword"
+        },
+        "fanju_title_text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "aid": {
+          "type": "integer"
+        },
+        "cid": {
+          "type": "integer"
+        },
+        "from": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "episode_title": {
+          "type": "keyword"
+        },
+        "episode_title_text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "share_url": {
+          "type": "keyword"
+        },
+        "episode_no": {
+          "type": "keyword"
+        },
+        "vid": {
+          "type": "keyword"
+        },
+        "danmu": {
+          "type": "keyword"
+        },
+        "danmu_p": {
+          "type": "keyword"
+        },
+        "danmu_text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "crawl_state":{
+          "type": "keyword"
+        },
+        "fanju_relation": { 
+          "type": "join",
+          "relations": {
+            "fanju": "episode",
+            "episode":"danmu"
+          }
+        }
+      }
+    }
+  }
+}

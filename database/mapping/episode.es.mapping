@@ -1,0 +1,71 @@
+PUT episode
+{
+  "settings" : {
+      "number_of_shards" : 1
+  },
+  "mappings": {
+    "episode": {
+      "properties": {
+        "aid": {
+          "type": "integer"
+        },
+        "badge": {
+          "type": "keyword"
+        },
+        "badge_type": {
+          "type": "integer"
+        },
+        "cid": {
+          "type": "integer"
+        },
+        "cover": {
+          "type": "keyword"
+        },
+        "from": {
+          "type": "keyword"
+        },
+        "id": {
+          "type": "long"
+        },
+        "long_title": {
+          "type": "keyword"
+        },
+        "long_title_text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "share_url": {
+          "type": "keyword"
+        },
+        "ss_title": {
+          "type": "keyword"
+        },
+        "ssid": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "long"
+        },
+        "title": {
+          "type": "keyword"
+        },
+        "vid": {
+          "type": "keyword"
+        },
+        "fanju_relation": { 
+          "type": "join",
+          "relations": {
+            "fanju": "episode",
+            "episode":"danmu"
+          }
+        }
+      }
+    }
+  }
+}

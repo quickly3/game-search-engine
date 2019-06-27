@@ -1,0 +1,96 @@
+PUT fanju
+{
+  "settings" : {
+      "number_of_shards" : 1
+  },
+  "mappings": {
+    "fanju": {
+      "properties": {
+        "badge": {
+          "type": "keyword"
+        },
+        "badge_type": {
+          "type": "integer"
+        },
+        "cover": {
+          "type": "keyword"
+        },
+        "index_show": {
+          "type": "keyword"
+        },
+        "episode": {
+          "type": "long"
+        },
+        "is_finish": {
+          "type": "integer"
+        },
+        "link": {
+          "type": "keyword"
+        },
+        "media_id": {
+          "type": "integer"
+        },
+        "order": {
+          "properties": {
+            "follow": {
+              "type": "long"
+            },
+            "follow_string": {
+              "type": "keyword"
+            },
+            "play": {
+              "type": "long"
+            },
+            "play_string": {
+              "type": "keyword"
+            },            
+            "pub_date": {
+              "type": "date"
+            },
+            "pub_real_time": {
+              "type": "date"
+            },
+            "renewal_time": {
+              "type": "date"
+            },
+            "score": {
+              "type": "long"
+            },
+            "time_show": {
+              "type": "keyword"
+            },
+            "type": {
+              "type": "keyword"
+            }
+          }
+        },
+        "season_id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "keyword"
+        },
+        "ssid": {
+          "type": "integer"
+        },
+        "title_text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          },
+          "analyzer": "ik_max_word"
+        },
+        "fanju_relation": { 
+          "type": "join",
+          "relations": {
+            "fanju": "episode",
+            "episode":"danmu"
+          }
+        }
+      }
+    }
+  }
+}
