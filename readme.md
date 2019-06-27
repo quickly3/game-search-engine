@@ -35,6 +35,10 @@ Elasticsearch日报
 scrapy crawl escn2
 scrapy crawl nba_player
 
+B站弹幕
+>scrapy crawl fanju
+scrapy crawl episode
+scrapy crawl danmu
 
 ### 数据挖掘
 >???有么
