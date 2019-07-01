@@ -31,15 +31,23 @@ Base = declarative_base()
 Session_class = sessionmaker(bind=engine)
 Session = Session_class()
 
-
 class AliSpider(scrapy.Spider):
     # 593
     name = "episode"
-    ssid = 0
-    
+    arg_ssid = 0
+
+    def __init__(self, ssid=0, *args, **kwargs):
+        super(AliSpider, self).__init__(*args, **kwargs)
+        self.arg_ssid = int(ssid)
+
     def start_requests(self):
 
-        rs = es.search(index="fanju",scroll="1m",q="doc_type:fanju && -crawl_state:*",size=1)
+        ky = "doc_type:fanju && -crawl_state:*"
+
+        if self.arg_ssid > 0:
+            ky = ky + " && ssid:" + str(self.arg_ssid)
+
+        rs = es.search(index="fanju",scroll="1m",q=ky,size=1)
 
         self._scroll_id = rs["_scroll_id"];
 
@@ -58,8 +66,10 @@ class AliSpider(scrapy.Spider):
     def parse(self, response):
         rs = response.text
         rs =  json.loads(rs)
-
+        print("Episode ssid:"+str(self.ssid))
         episodes = []
+
+        episodes_doc = []
 
         if 'main_section' in rs['result']:
             episodes = rs['result']['main_section']['episodes'];
@@ -69,11 +79,10 @@ class AliSpider(scrapy.Spider):
             for section in rs['result']['section']:
                 episodes.append(section);
 
-
         for episode in episodes:
 
             episode['doc_type'] = "episode"
-            episode["ssid"] = self.ssid
+            episode["ssid"] = int(self.ssid)
             episode["fanju_title"] = self.fanju_title
 
             if 'long_title' in episode:
@@ -90,7 +99,13 @@ class AliSpider(scrapy.Spider):
                     "name": "episode", 
                     "parent": self.fanju_doc_id 
                 }
-            es.index(index="fanju",doc_type="fanju",body=episode,routing=1)
+
+            episodes_doc.append({ "index" : { "_index" : "fanju", "_type" : "fanju" } });
+            episodes_doc.append(episode)
+
+            # es.index(index="fanju",doc_type="fanju",body=episode,routing=1)
+        if len(episodes_doc) > 0:
+            es.bulk(index="fanju",doc_type="fanju",body=episodes_doc,routing=1)
 
         updateDate = {
             "doc":{

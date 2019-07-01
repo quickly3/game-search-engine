@@ -75,6 +75,7 @@ PUT fanju
         },
         "fanju_title_text": {
           "type": "text",
+          "fielddata":true,
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -100,6 +101,7 @@ PUT fanju
         },
         "episode_title_text": {
           "type": "text",
+          "fielddata":true,
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -120,11 +122,9 @@ PUT fanju
         "danmu": {
           "type": "keyword"
         },
-        "danmu_p": {
-          "type": "keyword"
-        },
         "danmu_text": {
           "type": "text",
+          "fielddata":true,
           "fields": {
             "keyword": {
               "type": "keyword",
@@ -133,6 +133,31 @@ PUT fanju
           },
           "analyzer": "ik_max_word"
         },
+        "time_line": {
+          "type": "long"
+        },
+        "danmu_type": {
+          "type": "keyword"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "decimal_color": {
+          "type": "keyword"
+        },
+        "is_captions": {
+          "type": "keyword"
+        },
+        "send_time": {
+          "type": "date"
+        },
+        "uhash": {
+          "type": "keyword"
+        },
+        "danmu_id": {
+          "type": "keyword",
+          "index":false
+        },                                
         "crawl_state":{
           "type": "keyword"
         },

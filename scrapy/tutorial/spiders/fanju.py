@@ -21,7 +21,10 @@ from elasticsearch import Elasticsearch
 
 
 engine = mysql_engine.get_engine();
+storage_dir = '../storage/fanju'
 
+if not os.path.isdir(storage_dir):
+    os.mkdir( storage_dir );
 
 Base = declarative_base()
 
@@ -37,7 +40,7 @@ class AliSpider(scrapy.Spider):
     # 593
     name = "fanju"
 
-    # file = open('test.txt', 'w+')
+    # 
     page = 1
 
     start_urls = [
@@ -48,6 +51,8 @@ class AliSpider(scrapy.Spider):
         rs =  json.loads(response.text)
 
         items = rs['result']['data']
+
+        fanjus = []
 
         for item in items:
             item['doc_type'] = "fanju"
@@ -118,17 +123,21 @@ class AliSpider(scrapy.Spider):
                 else:
                     item['episode'] = float(item['episode'])
 
-            item['ssid'] = item['link'].replace("https://www.bilibili.com/bangumi/play/ss","")
+            item['ssid'] = int(item['link'].replace("https://www.bilibili.com/bangumi/play/ss",""))
 
             item['fanju_relation'] = "fanju"
 
-            try:
-                es.index(index="fanju",doc_type="fanju",body=item)
-            except BaseException :
-                print("Error")
-                print(item)
-                sys.exit()
+            fanjus.append({ "index" : { "_index" : "fanju", "_type" : "fanju" } });
+            fanjus.append(item)
 
+            # try:
+            #     es.index(index="fanju",doc_type="fanju",body=item)
+            # except BaseException :
+            #     print("Error")
+            #     print(item)
+            #     sys.exit()
+
+        es.bulk(index="fanju",body=fanjus,routing=1)
 
         next_page_url = 'https://bangumi.bilibili.com/media/web_api/search/result?season_version=-1&area=-1&is_finish=-1&copyright=-1&season_status=-1&season_month=-1&pub_date=-1&style_id=-1&order=3&st=1&sort=0&page={_page}&season_type=1&pagesize=20'
         

@@ -40,6 +40,9 @@ B站弹幕
 scrapy crawl episode
 scrapy crawl danmu
 
+scrapy crawl episode -a ssid=*
+scrapy crawl danmu -a ssid=*
+
 ### 数据挖掘
 >???有么
 
