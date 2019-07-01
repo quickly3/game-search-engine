@@ -35,6 +35,7 @@ class AliSpider(scrapy.Spider):
     # 593
     name = "episode"
     arg_ssid = 0
+    current = 0
 
     def __init__(self, ssid=0, *args, **kwargs):
         super(AliSpider, self).__init__(*args, **kwargs)
@@ -46,6 +47,13 @@ class AliSpider(scrapy.Spider):
 
         if self.arg_ssid > 0:
             ky = ky + " && ssid:" + str(self.arg_ssid)
+
+
+        self.count = es.count(index="fanju",q=ky);
+        self.count = self.count['count']
+        self.current = self.current+1
+
+
 
         rs = es.search(index="fanju",scroll="1m",q=ky,size=1)
 
@@ -64,6 +72,9 @@ class AliSpider(scrapy.Spider):
             yield scrapy.Request(ss_url, self.parse)
 
     def parse(self, response):
+
+        print("Processing: "+str(self.current)+"/"+str(self.count))
+
         rs = response.text
         rs =  json.loads(rs)
         print("Episode ssid:"+str(self.ssid))
@@ -130,7 +141,7 @@ class AliSpider(scrapy.Spider):
 
                 ss_url = 'https://api.bilibili.com/pgc/web/season/section?season_id={_ss_id}'
                 ss_url = ss_url.format(_ss_id=self.ssid)
-
+                self.current = self.current+1
                 yield scrapy.Request(ss_url, self.parse)
 
 

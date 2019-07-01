@@ -63,8 +63,17 @@ class AliSpider(scrapy.Spider):
                 score = item['order']['score'] 
                 item['order']['score']  = score.replace("分","");
 
-            item['order']['pub_date']  = datetime.datetime.fromtimestamp(item['order']['pub_date']);
-            item['order']['pub_real_time']  = datetime.datetime.fromtimestamp(item['order']['pub_real_time']);
+
+            if int(item['order']['pub_date']) > 0:
+                 item['order']['pub_date']  = datetime.datetime.fromtimestamp(item['order']['pub_date']);
+            else:
+                del item['order']['pub_date']
+
+            if int(item['order']['pub_real_time']) > 0:
+                item['order']['pub_real_time']  = datetime.datetime.fromtimestamp(item['order']['pub_real_time']);
+            else:
+                del item['order']['pub_real_time']
+
             
             if 'renewal_time' in item['order']:
                 item['order']['renewal_time']  = datetime.datetime.fromtimestamp(item['order']['renewal_time']);

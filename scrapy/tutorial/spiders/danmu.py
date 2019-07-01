@@ -49,7 +49,7 @@ class AliSpider(scrapy.Spider):
         self.arg_ssid = int(ssid)
 
     def start_requests(self):
-        ky = "doc_type:episode && -crawl_state:*"
+        ky = "doc_type:episode && cid:* && -crawl_state:*"
 
         if self.arg_ssid > 0:
             ky = ky + " && ssid:" + str(self.arg_ssid)
@@ -66,19 +66,25 @@ class AliSpider(scrapy.Spider):
 
             self.ssid = int(item['_source']["ssid"])
             self.fanju_title = item['_source']["fanju_title"]
-            self.episode_title = item['_source']["episode_title"]
+
+            if "episode_title" in item['_source']:
+                self.episode_title = item['_source']["episode_title"]
+            else:
+                self.episode_title = ""
+
             self.episode_no = item['_source']["episode_no"]
 
             self.cid = item['_source']["cid"]
             
             # self.episode = item['_source']["title"]
             self.episode_doc_id  = item['_id']
+            
 
-            danmu_url = "https://api.bilibili.com/x/v1/dm/list.so?oid="+str(self.cid)
-            yield scrapy.Request(danmu_url, self.parse)
+            self.danmu_url = "https://api.bilibili.com/x/v1/dm/list.so?oid="+str(self.cid)
+            yield scrapy.Request(self.danmu_url, self.parse)
 
     def parse(self, response):
-        
+
         print("Processing: "+str(self.current)+"/"+str(self.count))
 
         lxml = BeautifulSoup(response.text,'lxml')#lxml是常用的解析器，需要提前使用pip工具安装lxml库
@@ -86,8 +92,11 @@ class AliSpider(scrapy.Spider):
         danmus = [];
 
         self.fanju_title = self.fanju_title.replace("/","|")
+        self.fanju_title = self.fanju_title.replace("|"," ")
+        self.fanju_title = self.fanju_title.replace('"'," ")
 
         episode_path = storage_dir+"/"+self.fanju_title
+
         episode_zip_filename  = storage_dir+"/"+self.fanju_title+".zip"
 
         if not os.path.isdir(storage_dir):
@@ -96,10 +105,19 @@ class AliSpider(scrapy.Spider):
         if not os.path.isdir(episode_path):
             os.mkdir( episode_path );
 
-        self.episode_title = self.episode_title.replace("/","//")
+        self.episode_title = self.episode_title.replace("/"," ")
+        self.episode_title = self.episode_title.replace('"'," ")
+        self.episode_title = self.episode_title.replace("|"," ")
+        self.episode_title = self.episode_title.replace("?","？")
 
-        file_path =  episode_path+"/第" + str(self.episode_no) + "话 - " +self.episode_title+".txt"
-        file = open(file_path, 'w+')
+
+        if self.episode_title == "":
+            file_path =  episode_path+str(self.episode_no)+".txt"
+        else:
+            file_path =  episode_path+"/第" + str(self.episode_no) + "话 - " +self.episode_title+".txt"
+
+
+        file = open(file_path, 'w+',encoding="utf-8")
 
         # print("Len: "+str(len(danmu)))
         for item in danmu:
@@ -161,6 +179,18 @@ class AliSpider(scrapy.Spider):
         }
         es.update(index="fanju",doc_type="fanju",id=self.episode_doc_id,body=updateDate)
 
+        fanju = es.search(index="fanju",doc_type="fanju",q="doc_type:fanju && ssid:"+str(self.ssid) )
+
+        if fanju['hits']['total'] > 0:
+            fanju_doc_id = fanju['hits']['hits'][0]["_id"]
+            updateDate = {
+                "doc":{
+                    "danmu_dir":episode_path,
+                    "danmu_zip":episode_zip_filename,
+                }
+            }            
+            es.update(index="fanju",doc_type="fanju",id=fanju_doc_id,body=updateDate)
+
         rs = es.scroll(scroll_id=self._scroll_id,scroll="1m")
 
         self._scroll_id = rs["_scroll_id"];
@@ -170,15 +200,20 @@ class AliSpider(scrapy.Spider):
             for item in rs['hits']['hits']:
                 self.ssid = item['_source']["ssid"]
                 self.fanju_title = item['_source']["fanju_title"]
-                self.episode_title = item['_source']["episode_title"]
+
+                if "episode_title" in item['_source']:
+                    self.episode_title = item['_source']["episode_title"]
+                else:
+                    self.episode_title = ""
+
                 self.episode_no = item['_source']["episode_no"]
                 
                 self.cid = item['_source']["cid"]
                 # self.episode = item['_source']["title"]
                 self.episode_doc_id  = item['_id']
                 self.current = self.current+1
-                danmu_url = "https://api.bilibili.com/x/v1/dm/list.so?oid="+str(self.cid)
-                yield scrapy.Request(danmu_url, self.parse)
+                self.danmu_url = "https://api.bilibili.com/x/v1/dm/list.so?oid="+str(self.cid)
+                yield scrapy.Request(self.danmu_url, self.parse)
 
     def zipDir(self,dirpath,outFullName):
 

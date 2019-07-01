@@ -161,6 +161,14 @@ PUT fanju
         "crawl_state":{
           "type": "keyword"
         },
+        "danmu_zip":{
+          "type": "keyword",
+          "index":false
+        },
+        "danmu_zip":{
+          "type": "keyword",
+          "index":false
+        },
         "fanju_relation": { 
           "type": "join",
           "relations": {
