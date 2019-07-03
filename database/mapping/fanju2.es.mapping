@@ -161,7 +161,7 @@ PUT fanju
         "crawl_state":{
           "type": "keyword"
         },
-        "danmu_zip":{
+        "danmu_dir":{
           "type": "keyword",
           "index":false
         },
