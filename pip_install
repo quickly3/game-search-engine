@@ -9,3 +9,5 @@ pip install requests
 pip install BeautifulSoup4
 
 
+for win:
+pip install pypiwin32
