@@ -23,7 +23,7 @@ PUT fanju
           "type": "keyword"
         },
         "episode": {
-          "type": "long"
+          "type": "keyword"
         },
         "is_finish": {
           "type": "integer"

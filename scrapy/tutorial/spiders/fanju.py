@@ -130,7 +130,7 @@ class AliSpider(scrapy.Spider):
                 if item['episode'] == "":
                     item['episode'] = 0
                 else:
-                    item['episode'] = float(item['episode'])
+                    item['episode'] = item['episode']
 
             item['ssid'] = int(item['link'].replace("https://www.bilibili.com/bangumi/play/ss",""))
 
