@@ -112,10 +112,9 @@ class AliSpider(scrapy.Spider):
 
 
         if self.episode_title == "":
-            file_path =  episode_path+str(self.episode_no)+".txt"
+            file_path =  episode_path+"/"+str(self.episode_no)+".txt"
         else:
             file_path =  episode_path+"/第" + str(self.episode_no) + "话 - " +self.episode_title+".txt"
-
 
         file = open(file_path, 'w+',encoding="utf-8")
 
@@ -163,7 +162,7 @@ class AliSpider(scrapy.Spider):
             # print(danmu)
             # es.index(index="fanju",doc_type="fanju",body=danmu,routing=1)
 
-        # es.bulk(index="fanju",body=danmus,routing=1)
+        es.bulk(index="fanju",body=danmus,routing=1)
 
         # episode_path = episode_path.replace(" ","_")
         # episode_zip_filename = episode_zip_filename.replace(" ","_")
