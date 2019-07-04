@@ -89,6 +89,7 @@ class AliSpider(scrapy.Spider):
 
         lxml = BeautifulSoup(response.text,'lxml')#lxml是常用的解析器，需要提前使用pip工具安装lxml库
         danmu = lxml.find_all('d')
+
         danmus = [];
 
         self.fanju_title = self.fanju_title.replace("/","|")
@@ -106,6 +107,12 @@ class AliSpider(scrapy.Spider):
             os.mkdir( episode_path );
 
         self.episode_title = self.episode_title.replace("/"," ")
+        self.episode_title = self.episode_title.replace("\\"," ")
+        self.episode_title = self.episode_title.replace("\""," ")
+        self.episode_title = self.episode_title.replace("*"," ")
+        self.episode_title = self.episode_title.replace("<"," ")
+        self.episode_title = self.episode_title.replace(">"," ")
+
         self.episode_title = self.episode_title.replace('"'," ")
         self.episode_title = self.episode_title.replace("|"," ")
         self.episode_title = self.episode_title.replace("?","？")
@@ -162,7 +169,8 @@ class AliSpider(scrapy.Spider):
             # print(danmu)
             # es.index(index="fanju",doc_type="fanju",body=danmu,routing=1)
 
-        es.bulk(index="fanju",body=danmus,routing=1)
+        if len(danmus) > 0:
+            es.bulk(index="fanju",body=danmus,routing=1)
 
         # episode_path = episode_path.replace(" ","_")
         # episode_zip_filename = episode_zip_filename.replace(" ","_")
