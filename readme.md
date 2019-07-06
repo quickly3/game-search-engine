@@ -43,6 +43,9 @@ scrapy crawl danmu
 scrapy crawl episode -a ssid=*
 scrapy crawl danmu -a ssid=*
 
+nohup scrapy crawl danmu > d.log &
+nohup scrapy crawl danmu > d.log 2>&1 &
+
 ### 数据挖掘
 >???有么
 
