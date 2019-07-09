@@ -7,8 +7,8 @@ const routes: Routes = [
     { path: 'escn-daily', loadChildren: './escn-daily/escn-daily.module#EscnDailyModule' },
     { path: 'game-detail', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
     { path: 'game-detail/:id', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
-    { path: '', redirectTo: 'fanju', pathMatch: 'full' },
-    { path: '**', redirectTo: 'fanju' }
+    { path: '', redirectTo: 'games', pathMatch: 'full' },
+    { path: '**', redirectTo: 'games' }
 ];
 
 const config: ExtraOptions = {
