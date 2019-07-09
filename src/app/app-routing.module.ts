@@ -1,12 +1,17 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
+import { GamesComponent } from './games/games.component';
+import { FanjuComponent } from './fanju/fanju.component';
+import { EscnDailyComponent } from './escn-daily/escn-daily.component';
+import { GameDetailComponent } from './game-detail/game-detail.component';
+
+
 const routes: Routes = [
-    { path: 'games', loadChildren: './games/games.module#GamesModule' },
-    { path: 'fanju', loadChildren: './fanju/fanju.module#FanjuModule' },
-    { path: 'escn-daily', loadChildren: './escn-daily/escn-daily.module#EscnDailyModule' },
-    { path: 'game-detail', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
-    { path: 'game-detail/:id', loadChildren: './game-detail/game-detail.module#GameDetailModule' },
+    { path: 'games', component: GamesComponent },
+    { path: 'fanju', component: FanjuComponent },
+    { path: 'escn-daily', component: EscnDailyComponent },
+    { path: 'game-detail/:id', component: GameDetailComponent },
     { path: '', redirectTo: 'games', pathMatch: 'full' },
     { path: '**', redirectTo: 'games' }
 ];

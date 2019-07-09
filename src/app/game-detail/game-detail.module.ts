@@ -5,7 +5,8 @@ import { BootstrapModule } from 'app/plugins/bootstrap.module';
 
 import { FormsModule } from '@angular/forms';
 
-import { GameDetailRoutingModule } from './game-detail-routing.module';
+// import { GameDetailRoutingModule } from './game-detail-routing.module';
+import { AppRoutingModule } from 'app/app-routing.module';
 import { GameDetailComponent } from './game-detail.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ComponentsModule } from '../components/components.module';
@@ -19,7 +20,7 @@ const PAGES_COMPONENTS = [
     imports: [
         CommonModule,
         FormsModule,
-        GameDetailRoutingModule,
+        AppRoutingModule,
         AngularFontAwesomeModule,
         BootstrapModule,
         ComponentsModule
