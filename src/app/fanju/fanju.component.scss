@@ -1,0 +1,62 @@
+.search-header{
+    .search-input{
+        width: 300px;
+        margin:0 auto;
+        margin: 10px auto;
+        input{
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 15px;
+        }
+    }
+}
+
+.game_list{
+    .game_item{
+        text-decoration: none;
+        color:#0074e7;
+        margin-bottom: 10px;
+        .img_zone{
+            .img{
+                width: 100%;       
+                cursor: pointer;               
+            }
+        }
+        .des_zone{
+            .title{
+                color:#0074e7;
+                font-size: 20px;
+                font-weight: 700;
+                text-decoration: none;
+            }       
+            .description{
+                font-size: 12px;
+                color:#0074e7;
+                overflow: hidden;
+                height: 100%;
+                transition:height 0.3s ease-out;
+
+            }
+            .badge{
+                margin: 0 2px;
+            }
+            .description-height{
+                transition:height 0.3s;
+                height: 150px;
+            }
+            .unfold{
+                display: block;
+                position: absolute;
+                right: 5px;
+                bottom: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.pagination{
+    .navigation{
+        margin: 0 auto;
+    }
+}

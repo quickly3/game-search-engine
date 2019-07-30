@@ -27,3 +27,4 @@ public/assets/config.json
 public/index.html
 public/3rdpartylicenses.txt
 *.pyc
+.DS_Store

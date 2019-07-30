@@ -1,1 +1,41 @@
-<p>fanju works!</p>
+<app-nav></app-nav>
+<div class="container">
+    <div class="search-header">
+        <div class="search-input">
+            <input id="typeahead-basic" type="text" class="form-control form-control-sm" 
+                [(ngModel)]="game_keywords" 
+                [ngbTypeahead]="search_by_keywords" 
+                (keydown)="searchKeyDown($event)"
+                (selectItem)="searchMore($event)"
+                placeholder="平凡职业造就世界最强"
+                />
+            <button type="button" class="btn btn-primary btn-sm" (click)="search()">
+                搜索
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row game_list row">
+        <!-- <div class="game_item col-12 row" *ngFor="let game of game_list" routerLink="/game-detail/{{fanju._id}}" routerLinkActive="active"> -->
+        <div class="game_item col-12 row" *ngFor="let fanju of fanju_list" routerLink="/game-detail/{{fanju._id}}" routerLinkActive="active">
+            <div class="img_zone col-md-2 col-4">
+                <img class="img" src="{{fanju.cover}}" alt=""  routerLink="/game-detail/{{fanju._id}}" routerLinkActive="active">
+            </div>
+            <div class="des_zone col-md-10 col-8">
+                <div>
+                    <!-- <a routerLink="/game-detail/{{fanju._id}}" routerLinkActive="active" class="title">{{fanju.name}}</a> -->
+                    <a routerLinkActive="active" class="title">{{fanju.fanju_title}}</a>
+                </div>
+                <!-- <div>
+                    <span class="badge badge-primary" *ngFor="let tag of fanju.game_tags_string">{{tag}}</span>
+                </div> -->
+                <!-- <div [innerHTML]="fanju.description" class="description" [ngClass]="{'description-height':!fanju.unfold}"></div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="pagination">
+        <ngb-pagination class="navigation" [collectionSize]="total_number" [(page)]="current_page"
+            [pageSize]="row" [maxSize]="5" [rotate]="true" size="sm" (pageChange)="pageChange()"></ngb-pagination>
+    </div>
+</div>

@@ -12,8 +12,8 @@ const routes: Routes = [
     { path: 'fanju', component: FanjuComponent },
     { path: 'escn-daily', component: EscnDailyComponent },
     { path: 'game-detail/:id', component: GameDetailComponent },
-    { path: '', redirectTo: 'games', pathMatch: 'full' },
-    { path: '**', redirectTo: 'games' }
+    { path: '', redirectTo: 'fanju', pathMatch: 'full' },
+    { path: '**', redirectTo: 'fanju' }
 ];
 
 const config: ExtraOptions = {

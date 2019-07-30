@@ -18,16 +18,14 @@
     id="navbarText"
   >
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" [ngClass]="{'active':router.url.indexOf('/games') > -1 }">
-        <a class="nav-link" href="#"
-          >Home <span class="sr-only">(current)</span></a
-        >
+      <li class="nav-item" [ngClass]="{'active':router.url.indexOf('/fanju') > -1 }">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#/escn-daily"  [ngClass]="{'active':router.url.indexOf('/escn-daily') > -1 }">Escn </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#/fanju"  [ngClass]="{'active':router.url.indexOf('/fanju') > -1 }">Damnu </a>
+        <a class="nav-link" href="#/games"  [ngClass]="{'active':router.url.indexOf('/games') > -1 }">Games </a>
       </li>
       <li class="nav-item">
         <a

@@ -14,9 +14,11 @@ BOT_NAME = 'tutorial'
 SPIDER_MODULES = ['tutorial.spiders']
 NEWSPIDER_MODULE = 'tutorial.spiders'
 
+IMAGES_STORE = '/Users/hongbinzhou/meizi'
+
 FEED_EXPORT_ENCODING = 'utf-8'
 
-LOG_LEVEL = "WARNING"
+LOG_LEVEL = "DEBUG"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -68,9 +70,9 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'tutorial.pipelines.TutorialPipeline': 300,
-# }
+ITEM_PIPELINES = {
+   'tutorial.pipelines.ImagesPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

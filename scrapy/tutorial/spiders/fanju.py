@@ -35,6 +35,12 @@ Session = Session_class()
 es = Elasticsearch()
 es.indices.create(index='fanju', ignore=400)
 
+class ImgData(scrapy.Item):
+    #other fields...
+    images = scrapy.Field()
+    image_urls = scrapy.Field()
+    #other fields...
+
 
 class AliSpider(scrapy.Spider):
     # 593
@@ -47,12 +53,16 @@ class AliSpider(scrapy.Spider):
         'https://bangumi.bilibili.com/media/web_api/search/result?season_version=-1&area=-1&is_finish=-1&copyright=-1&season_status=-1&season_month=-1&pub_date=-1&style_id=-1&order=3&st=1&sort=0&page=1&season_type=1&pagesize=20',
     ]
 
+    image_urls = [];
+
     def parse(self, response):
         rs =  json.loads(response.text)
 
         items = rs['result']['data']
 
         fanjus = []
+
+        self.image_urls = []
 
         for item in items:
             item['doc_type'] = "fanju"
@@ -63,6 +73,8 @@ class AliSpider(scrapy.Spider):
                 score = item['order']['score'] 
                 item['order']['score']  = score.replace("分","");
 
+            self.image_urls.append(item['cover'])
+            # yield scrapy.Request(url=item['cover'],callback=self.imageDL)
 
             if int(item['order']['pub_date']) > 0:
                  item['order']['pub_date']  = datetime.datetime.fromtimestamp(item['order']['pub_date']);
@@ -146,8 +158,12 @@ class AliSpider(scrapy.Spider):
             #     print(item)
             #     sys.exit()
 
-        es.bulk(index="fanju",body=fanjus,routing=1)
 
+        
+        yield ImgData(image_urls=self.image_urls)
+        
+        es.bulk(index="fanju",body=fanjus,routing=1)
+        
         next_page_url = 'https://bangumi.bilibili.com/media/web_api/search/result?season_version=-1&area=-1&is_finish=-1&copyright=-1&season_status=-1&season_month=-1&pub_date=-1&style_id=-1&order=3&st=1&sort=0&page={_page}&season_type=1&pagesize=20'
         
         self.page = self.page+1
