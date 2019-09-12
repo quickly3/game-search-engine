@@ -19,6 +19,9 @@ PUT fanju
         "cover": {
           "type": "keyword"
         },
+        "cover_local": {
+          "type": "keyword"
+        },
         "index_show": {
           "type": "keyword"
         },

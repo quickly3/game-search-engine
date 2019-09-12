@@ -1,7 +1,7 @@
 # -*- coding:UTF-8 -*-
-# 
 #
- 
+#
+
 import scrapy
 import sys
 import sqlalchemy
@@ -23,13 +23,13 @@ DB_DATABASE = os.getenv("DB_DATABASE")
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
-engine = create_engine("mysql+pymysql://"+DB_USERNAME+":"+DB_PASSWORD+"@localhost/"+DB_DATABASE+"?charset=utf8", encoding='utf-8', echo=False)
+engine = create_engine("mysql+pymysql://"+DB_USERNAME+":"+DB_PASSWORD +
+                       "@localhost/"+DB_DATABASE+"?charset=utf8", encoding='utf-8', echo=False)
 Base = declarative_base()
 
 
 Session_class = sessionmaker(bind=engine)
 Session = Session_class()
-
 
 
 class Game(Base):
@@ -52,44 +52,50 @@ class AliSpider(scrapy.Spider):
         'https://down.ali213.net/pcgame/all/0-0-0-0-new-pic-1',
     ]
 
-    isDuplicate_cnt = 0;
+    isDuplicate_cnt = 0
     isDuplicate = False
 
     def parse(self, response):
 
         for game in response.css('.famous-li'):
-            name = game.css('.game-name::text').extract_first();
-            image_url = game.css('.content-a img::attr(src)').extract_first();
+            name = game.css('.game-name::text').extract_first()
+            image_url = game.css('.content-a img::attr(src)').extract_first()
 
             if image_url == None:
-                image_url = game.css('.content-a img::attr(data-original)').extract_first();
+                image_url = game.css(
+                    '.content-a img::attr(data-original)').extract_first()
 
-            size = game.css('.game-down::text').extract_first();
+            size = game.css('.game-down::text').extract_first()
             p1 = re.compile(r'[(](.*?)[)]', re.S)
             matches = re.findall(p1, size)
             size = matches[0]
 
-            detail_page = "http://down.ali213.net"+game.css('.content-a::attr(href)').extract_first();
+            detail_page = "http://down.ali213.net" + \
+                game.css('.content-a::attr(href)').extract_first()
 
-            duplicate_game = Session.query(Game).filter(Game.detail_page==detail_page).first()
+            duplicate_game = Session.query(Game).filter(
+                Game.detail_page == detail_page).first()
 
-            if duplicate_game == None :
-                AliSpider.isDuplicate_cnt=0
+            if duplicate_game == None:
+                AliSpider.isDuplicate_cnt = 0
                 AliSpider.isDuplicate = False
-                game_obj = Game(name=name, image_url=image_url, size=size, detail_page=detail_page,state=0)            
+                game_obj = Game(name=name, image_url=image_url,
+                                size=size, detail_page=detail_page, state=0)
                 Session.add(game_obj)
                 Session.commit()
             else:
-                old_game = Session.query(Game).filter(Game.detail_page==detail_page).filter(sqlalchemy.text("state=1 or state=2")).first()
+                old_game = Session.query(Game).filter(Game.detail_page == detail_page).filter(
+                    sqlalchemy.text("state=1 or state=2")).first()
 
                 if old_game != None:
                     update_obj = {
-                        Game.state:0,
+                        Game.state: 0,
                     }
-                    Session.query(Game).filter(Game.id==old_game.id).update(update_obj)
-                    Session.commit();
+                    Session.query(Game).filter(
+                        Game.id == old_game.id).update(update_obj)
+                    Session.commit()
 
-                AliSpider.isDuplicate_cnt+=1
+                AliSpider.isDuplicate_cnt += 1
                 if AliSpider.isDuplicate_cnt > 20:
                     AliSpider.isDuplicate = True
                     break
@@ -97,7 +103,7 @@ class AliSpider(scrapy.Spider):
         if AliSpider.isDuplicate == True:
             next_page = None
         else:
-            next_page_str = '.page-next::attr(href)';
+            next_page_str = '.page-next::attr(href)'
             next_page = response.css(next_page_str).extract_first()
 
         if next_page is not None:
